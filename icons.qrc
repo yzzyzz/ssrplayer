@@ -1,0 +1,32 @@
+<RCC>
+    <qresource prefix="/icons">
+        <file>res/play.png</file>
+        <file>res/back.png</file>
+        <file>res/next.png</file>
+        <file>res/pause.png</file>
+        <file>res/volume.png</file>
+        <file>res/musical_notec.png</file>
+        <file>res/volume_mute.png</file>
+        <file>res/stop_button.png</file>
+        <file>res/open_folder_purple.png</file>
+        <file>res/star_shining.png</file>
+        <file>res/music_note_r1.png</file>
+        <file>res/musical-note.png</file>
+        <file>res/back_w.png</file>
+        <file>res/next_w.png</file>
+        <file>res/pause_w.png</file>
+        <file>res/play_w.png</file>
+        <file>res/stop_button_w.png</file>
+        <file>res/volume_mute_w.png</file>
+        <file>res/volume_w.png</file>
+        <file>res/music_notec2.png</file>
+        <file>res/reset_list.png</file>
+        <file>res/question_markr1.png</file>
+        <file>res/quit.png</file>
+        <file>res/add_p1.png</file>
+        <file>res/remove_cyan1.png</file>
+        <file>res/loopmodec.png</file>
+        <file>res/loopb.png</file>
+        <file>res/shuffle.png</file>
+    </qresource>
+</RCC>
