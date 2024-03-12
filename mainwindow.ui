@@ -621,6 +621,7 @@ border-radius: 4px;
      <string>直播</string>
     </property>
     <addaction name="actionzhibo1"/>
+    <addaction name="actiongetlist"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuImport"/>
@@ -670,6 +671,15 @@ border-radius: 4px;
    </property>
    <property name="text">
     <string>zhibo1</string>
+   </property>
+  </action>
+  <action name="actiongetlist">
+   <property name="icon">
+    <iconset resource="icons.qrc">
+     <normaloff>:/icons/res/loopmodec.png</normaloff>:/icons/res/loopmodec.png</iconset>
+   </property>
+   <property name="text">
+    <string>getlist</string>
    </property>
   </action>
  </widget>

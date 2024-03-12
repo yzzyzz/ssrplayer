@@ -8,6 +8,12 @@
 #include <QListWidgetItem>
 #include <random>
 
+// 导入必备的两个网络操作库
+#include <QNetworkAccessManager>
+#include <QNetworkReply>
+
+
+
 QT_BEGIN_NAMESPACE
 namespace PQ { class PlayQueue;}
 QT_END_NAMESPACE
@@ -36,9 +42,7 @@ public:
     void clear();
     void setPlayMode(PQ::PlayMode);
     PQ::PlayMode getPlayMode() const;
-
     void addToUserQueue();
-
     QListWidgetItem* current();
     QListWidgetItem* next();
     QListWidgetItem* previous();

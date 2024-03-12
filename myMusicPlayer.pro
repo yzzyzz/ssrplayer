@@ -1,4 +1,4 @@
-QT += core gui multimedia
+QT += core gui multimedia network
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -10,12 +10,14 @@ CONFIG -= debug_and_release debug_and_release_target
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    HttpClient.cpp \
     main.cpp \
     mainwindow.cpp \
     managelist.cpp \
     playqueue.cpp
 
 HEADERS += \
+    HttpClient.h \
     mainwindow.h \
     managelist.h \
     playqueue.h

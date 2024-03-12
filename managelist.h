@@ -14,11 +14,16 @@ class ManageList : public QObject
 {
     Q_OBJECT
 
+signals:
+    void updateUiList(QString value);
+
 public:
     explicit ManageList(QListWidget* init_list, QObject *parent = nullptr);
     ~ManageList();
 
     // operations
+    void importLiveList();
+    void importToList2(QString sData);
     void importToList(const QDir& dir, QString format);
     void removeSelectedFromList();
     void clear();

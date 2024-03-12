@@ -73,7 +73,9 @@ private slots:
 
     void on_actionzhibo1_triggered();
 
-    void startPlayingLive();
+    void startPlayingLive(QString url);
+
+    void on_actiongetlist_triggered();
 
 private:
     Ui::MainWindow *ui;

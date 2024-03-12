@@ -1,5 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include <QDebug>
+
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -279,10 +281,10 @@ void MainWindow::startPlayingNew(QFileInfo file_info)
     cur_file_info = file_info;
 }
 
-void MainWindow::startPlayingLive()
+void MainWindow::startPlayingLive(QString urlString)
 { // do not modify this function, it's under inspection
     ui->stopButton->click();
-    QUrl url1("http://goldfm.cn:8000/goldfm");
+    QUrl url1(urlString);
     audio_player->setSource(url1);
     if (play_button_clicked) ui->playButton->click();
     ui->playButton->click();
@@ -291,8 +293,8 @@ void MainWindow::startPlayingLive()
 inline void MainWindow::playListItem(QListWidgetItem* item)
 {
     QString file_path = item->data(Qt::UserRole).toString();
-    QFileInfo file_info(file_path);
-    startPlayingNew(file_info);
+    qDebug() << "-----------playurl:--------" << file_path;
+    startPlayingLive(file_path);
 }
 
 void MainWindow::addToPlayQueue()
@@ -368,16 +370,17 @@ void MainWindow::writeSettings()
     settings.setValue("file/default_dir", default_file_dir);
     settings.setValue("file/default_import_dir", default_import_dir);
     settings.setValue("file/last_volume_pos", last_position);
-    music_list->saveList(settings, "musicList");
+    //music_list->saveList(settings, "musicList");
 }
 
 void MainWindow::readSettings()
 {
-    QSettings settings;
-    default_file_dir = settings.value("file/default_dir", "").toString();
-    default_import_dir = settings.value("file/default_import_dir", default_file_dir).toString();
-    last_position = settings.value("file/last_volume_pos", 25).toInt();
-    music_list->loadList(settings, "musicList");
+    music_list->importLiveList();
+    // QSettings settings;
+    // default_file_dir = settings.value("file/default_dir", "").toString();
+    // default_import_dir = settings.value("file/default_import_dir", default_file_dir).toString();
+    // last_position = settings.value("file/last_volume_pos", 25).toInt();
+    //music_list->loadList(settings, "musicList");
 }
 
 void MainWindow::initActions()
@@ -520,8 +523,12 @@ int MainWindow::setYesOrNoMessageBox(QString message, QString window_title)
 void MainWindow::on_actionzhibo1_triggered()
 {
     ;//return;
-    QString url ="sdfs";
-    char liveurl[] = "http://goldfm.cn:8000/goldfm";
-    startPlayingLive();
+    //startPlayingLive();
+}
+
+
+void MainWindow::on_actiongetlist_triggered()
+{
+    music_list->importLiveList();
 }
 

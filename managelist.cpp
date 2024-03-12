@@ -1,5 +1,16 @@
 #include "managelist.h"
 
+#include "HttpClient.h"
+
+
+#include <QCoreApplication>
+#include <QNetworkAccessManager>
+#include <QNetworkRequest>
+#include <QNetworkReply>
+#include <QDebug>
+#include <iostream>
+
+
 ManageList::ManageList(QListWidget* init_list, QObject *parent)
     : QObject{parent}
     , item_list(init_list)
@@ -31,6 +42,35 @@ void ManageList::importToList(const QDir &dir, QString format)
         item_list->addItem(item);
     }
 }
+
+
+void ManageList::importToList2(QString sData)
+{
+    QStringList list1 = sData.split("\n");
+    item_list->clear();
+    for(int i=0;i<list1.size();i++){
+        qDebug() << list1[i];
+        if(list1[i].length()<10){break;}
+        QStringList list2 = list1[i].split(",");
+
+        QListWidgetItem* item = new QListWidgetItem;
+        item->setIcon(QIcon(":/icons/res/music_notec2.png"));
+        item->setText(list2[0]);
+        item->setData(Qt::UserRole, list2[1]);
+        item_list->addItem(item);
+    }
+}
+
+
+void ManageList::importLiveList()
+{
+    // [[1]] GET 请求无参数
+    HttpClient("http://122.51.216.6:8005/radio.php").success([this](const QString &response) {
+        //qDebug() << response;
+        importToList2(response);
+    }).get();
+}
+
 
 void ManageList::removeSelectedFromList()
 {
