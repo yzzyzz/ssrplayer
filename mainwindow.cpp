@@ -392,7 +392,6 @@ void MainWindow::initActions()
     quit_action = std::unique_ptr<QAction>(new QAction("&Quit", this));
     quit_action->setIcon(QIcon(":icons/res/quit.png"));
     connect(quit_action.get(), &QAction::triggered, qApp, &QCoreApplication::quit);
-
     add_to_queue_action = std::unique_ptr<QAction>(new QAction("&Add To Play Queue", this));
     add_to_queue_action->setIcon(QIcon(":icons/res/add_p1.png"));
     connect(add_to_queue_action.get(), &QAction::triggered, this, &MainWindow::addToPlayQueue);
