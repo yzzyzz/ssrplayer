@@ -104,7 +104,7 @@ private:
     // file settings
     QString default_file_dir;
     QString default_import_dir;
-    QFileInfo cur_file_info;
+    QString cur_station_name;
     int last_position;
 
     // ui settings

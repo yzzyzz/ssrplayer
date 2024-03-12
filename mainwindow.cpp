@@ -24,15 +24,13 @@ MainWindow::MainWindow(QWidget *parent)
     audio_output = std::unique_ptr<QAudioOutput>(new QAudioOutput(this));
     play_queue = std::unique_ptr<PlayQueue>(new PlayQueue(ui->musicList));
     audio_player->setAudioOutput(audio_output.get());
-    audio_output->setVolume(volumeConvert(last_position));
+    audio_output->setVolume(50.0);
 
     // set key shortcuts
     setShortCutsForAll();
-
     // set Menu & actions
     initActions();
     // initMenus();
-
     // ui setting
     ui->volumeSlider->setValue(last_position);
     ui->volumeDisplay->setText(QString::number(ui->volumeSlider->value()) + "%");
@@ -121,17 +119,17 @@ void MainWindow::stateChanged(QMediaPlayer::PlaybackState state)
 // protected
 void MainWindow::closeEvent(QCloseEvent *event)
 {
-    auto ret = setYesOrNoMessageBox("Are You Sure to Exit?", "Exit");
-
-    if (ret == QMessageBox::Yes)
-    {
-        writeSettings();
-        event->accept();
-    }
-    else
-    {
-        event->ignore();
-    }
+    event->accept();
+    // auto ret = setYesOrNoMessageBox("Are You Sure to Exit?", "Exit");
+    // if (ret == QMessageBox::Yes)
+    // {
+    //     writeSettings();
+    //     event->accept();
+    // }
+    // else
+    // {
+    //     event->ignore();
+    // }
 }
 
 // private slot
@@ -148,7 +146,6 @@ void MainWindow::on_actionOpen_File_triggered()
     if (file_info.absolutePath() != "") default_file_dir = file_info.absolutePath();
     if (file_info.fileName() != "")
         startPlayingNew(file_info);
-
 }
 
 void MainWindow::on_actionImport_Music_Resources_triggered()
@@ -278,7 +275,7 @@ void MainWindow::startPlayingNew(QFileInfo file_info)
     audio_player->setSource(QUrl::fromLocalFile(file_info.absoluteFilePath()));
     if (play_button_clicked) ui->playButton->click();
     ui->playButton->click();
-    cur_file_info = file_info;
+    //cur_file_info = file_info;
 }
 
 void MainWindow::startPlayingLive(QString urlString)
@@ -294,6 +291,7 @@ inline void MainWindow::playListItem(QListWidgetItem* item)
 {
     QString file_path = item->data(Qt::UserRole).toString();
     qDebug() << "-----------playurl:--------" << file_path;
+    cur_station_name = item->text();
     startPlayingLive(file_path);
 }
 
@@ -337,7 +335,13 @@ void MainWindow::setRandomLoopMode()
 void MainWindow::showMusicInfo(QMediaPlayer::MediaStatus status)
 {
     if (status != QMediaPlayer::LoadedMedia) return;
+
     QMediaMetaData file_meta_data = audio_player->metaData();
+    qDebug() << file_meta_data.Url;
+
+    QString title1 = file_meta_data.value(QMediaMetaData::Genre).toString();
+
+    qDebug() << "get meta info -------\n\n\n" << title1;
     // set image
     QVariant raw_image = file_meta_data.value(QMediaMetaData::ThumbnailImage);
     QImage cover_image = raw_image.value<QImage>();
@@ -354,12 +358,12 @@ void MainWindow::showMusicInfo(QMediaPlayer::MediaStatus status)
     if (!title.isEmpty() && !author.isEmpty())
         ui->musicNameDisplay->setText(\
          "Playing " + title + "...<br>Musician ("+ author\
-         + ")<br>File (" + cur_file_info.fileName() + ")");
+         + ")<br>File (" + cur_station_name + ")");
     else
-        ui->musicNameDisplay->setText("Playing <"+ cur_file_info.fileName() + ">...");
+        ui->musicNameDisplay->setText("Playing <"+ cur_station_name + ">...");
 
     // also show music info in tray icon tooltips
-    tray_icon->setToolTip("Playing <"+ cur_file_info.fileName() + ">...");
+    tray_icon->setToolTip("Playing <"+ cur_station_name + ">...");
 }
 
 
