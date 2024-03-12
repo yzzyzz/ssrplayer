@@ -71,6 +71,10 @@ private slots:
 
     void on_modeButton_clicked();
 
+    void on_actionzhibo1_triggered();
+
+    void startPlayingLive();
+
 private:
     Ui::MainWindow *ui;
     std::unique_ptr<QMediaPlayer> audio_player;

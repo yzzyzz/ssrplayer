@@ -279,6 +279,15 @@ void MainWindow::startPlayingNew(QFileInfo file_info)
     cur_file_info = file_info;
 }
 
+void MainWindow::startPlayingLive()
+{ // do not modify this function, it's under inspection
+    ui->stopButton->click();
+    QUrl url1("http://goldfm.cn:8000/goldfm");
+    audio_player->setSource(url1);
+    if (play_button_clicked) ui->playButton->click();
+    ui->playButton->click();
+}
+
 inline void MainWindow::playListItem(QListWidgetItem* item)
 {
     QString file_path = item->data(Qt::UserRole).toString();
@@ -505,3 +514,14 @@ int MainWindow::setYesOrNoMessageBox(QString message, QString window_title)
     exit_box.setDefaultButton(QMessageBox::Yes);
     return exit_box.exec();
 }
+
+
+
+void MainWindow::on_actionzhibo1_triggered()
+{
+    ;//return;
+    QString url ="sdfs";
+    char liveurl[] = "http://goldfm.cn:8000/goldfm";
+    startPlayingLive();
+}
+
