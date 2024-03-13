@@ -25,10 +25,83 @@
    </property>
    <layout class="QVBoxLayout" name="verticalLayout_2" stretch="3,1">
     <item>
-     <layout class="QGridLayout" name="gridLayout" rowstretch="2,1" columnstretch="1,2">
+     <layout class="QGridLayout" name="gridLayout" rowstretch="2,0" columnstretch="1,0">
       <property name="horizontalSpacing">
        <number>10</number>
       </property>
+      <item row="1" column="0">
+       <widget class="QLabel" name="musicNameDisplay">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Ignored" vsizetype="Preferred">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="font">
+         <font>
+          <pointsize>8</pointsize>
+         </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">color: rgb(130, 41, 255);</string>
+        </property>
+        <property name="text">
+         <string>Playing Nothing now</string>
+        </property>
+        <property name="textFormat">
+         <enum>Qt::AutoText</enum>
+        </property>
+        <property name="scaledContents">
+         <bool>true</bool>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="0">
+       <widget class="QLabel" name="musicGraphics">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>40</width>
+          <height>40</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>300</width>
+          <height>300</height>
+         </size>
+        </property>
+        <property name="layoutDirection">
+         <enum>Qt::LeftToRight</enum>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QLabel {
+	border: 2px solid  rgb(155, 148, 255);
+	border-radius: 4px;
+}</string>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="pixmap">
+         <pixmap resource="icons.qrc">:/icons/res/musical_notec.png</pixmap>
+        </property>
+        <property name="scaledContents">
+         <bool>true</bool>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+      </item>
       <item row="0" column="1" rowspan="2">
        <widget class="QListWidget" name="musicList">
         <property name="palette">
@@ -142,79 +215,6 @@
         </property>
         <property name="sortingEnabled">
          <bool>false</bool>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="0">
-       <widget class="QLabel" name="musicGraphics">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="minimumSize">
-         <size>
-          <width>40</width>
-          <height>40</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>300</width>
-          <height>300</height>
-         </size>
-        </property>
-        <property name="layoutDirection">
-         <enum>Qt::LeftToRight</enum>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">QLabel {
-	border: 2px solid  rgb(155, 148, 255);
-	border-radius: 4px;
-}</string>
-        </property>
-        <property name="text">
-         <string/>
-        </property>
-        <property name="pixmap">
-         <pixmap resource="icons.qrc">:/icons/res/musical_notec.png</pixmap>
-        </property>
-        <property name="scaledContents">
-         <bool>true</bool>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignCenter</set>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="0">
-       <widget class="QLabel" name="musicNameDisplay">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Ignored" vsizetype="Preferred">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="font">
-         <font>
-          <pointsize>8</pointsize>
-         </font>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">color: rgb(130, 41, 255);</string>
-        </property>
-        <property name="text">
-         <string>Playing Nothing now</string>
-        </property>
-        <property name="textFormat">
-         <enum>Qt::AutoText</enum>
-        </property>
-        <property name="scaledContents">
-         <bool>true</bool>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignCenter</set>
         </property>
        </widget>
       </item>
@@ -623,10 +623,20 @@ border-radius: 4px;
     <addaction name="actionzhibo1"/>
     <addaction name="actiongetlist"/>
    </widget>
+   <widget class="QMenu" name="menuRight">
+    <property name="layoutDirection">
+     <enum>Qt::RightToLeft</enum>
+    </property>
+    <property name="title">
+     <string>右边的信息</string>
+    </property>
+    <addaction name="actionzhiboliebiao"/>
+   </widget>
    <addaction name="menuFile"/>
    <addaction name="menuImport"/>
    <addaction name="menuSettings"/>
    <addaction name="menuLive"/>
+   <addaction name="menuRight"/>
   </widget>
   <action name="actionOpen_File">
    <property name="icon">
@@ -680,6 +690,11 @@ border-radius: 4px;
    </property>
    <property name="text">
     <string>getlist</string>
+   </property>
+  </action>
+  <action name="actionzhiboliebiao">
+   <property name="text">
+    <string>zhiboliebiao</string>
    </property>
   </action>
  </widget>

@@ -9,7 +9,7 @@ MainWindow::MainWindow(QWidget *parent)
     , volume_button_clicked(false)
     , play_button_clicked(false)
     , music_manually_stopped(false)
-    , cached_volume(0.0f)
+    , cached_volume(50.0f)
 {
     ui->setupUi(this);
     // init widgetlist first since we need to read settings
@@ -44,12 +44,13 @@ MainWindow::MainWindow(QWidget *parent)
     // other ui componet settings
     ui->playButton->setEnabled(true);
     ui->stopButton->setEnabled(false);
+
+
     setMusicListMenu();
     connectMusicListMenu();
     setModeButton();
     // set stylesheet
     // ...
-
     // signal&slot connecttion
     initConnect();
 }
@@ -476,10 +477,13 @@ void MainWindow::setTrayIconMenu()
     tray_menu = std::unique_ptr<QMenu>(new QMenu(this));
     tray_menu->setWindowFlag(Qt::FramelessWindowHint);
     tray_menu->setAttribute(Qt::WA_TranslucentBackground);
-    tray_menu->addAction(play_next_action.get());
     tray_menu->addAction(play_action.get());
+    tray_menu->addAction(play_next_action.get());
     tray_menu->addAction(play_prev_action.get());
     tray_menu->addAction(quit_action.get());
+    tray_menu->toNSMenu();
+    //tray_menu->addAction(actionzhiboliebiao_action.get());
+
     tray_icon->setContextMenu(tray_menu.get());
 }
 
