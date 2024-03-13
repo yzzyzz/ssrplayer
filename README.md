@@ -7,3 +7,4 @@
 - [X] Dialogs
 - [ ] User Settings
 - [ ] UI Improvement (some small improvement already)
+# ssrplayer
