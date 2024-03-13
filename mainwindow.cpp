@@ -3,6 +3,7 @@
 #include <QDebug>
 
 
+
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -23,6 +24,8 @@ MainWindow::MainWindow(QWidget *parent)
     audio_player = std::unique_ptr<QMediaPlayer>(new QMediaPlayer(this));
     audio_output = std::unique_ptr<QAudioOutput>(new QAudioOutput(this));
     play_queue = std::unique_ptr<PlayQueue>(new PlayQueue(ui->musicList));
+    //play_obj =
+    //audio_player->setAudioRole(QAudio::MusicRole);
     audio_player->setAudioOutput(audio_output.get());
     audio_output->setVolume(50.0);
 
@@ -32,7 +35,7 @@ MainWindow::MainWindow(QWidget *parent)
     initActions();
     // initMenus();
     // ui setting
-    ui->volumeSlider->setValue(last_position);
+    ui->volumeSlider->setValue(50);
     ui->volumeDisplay->setText(QString::number(ui->volumeSlider->value()) + "%");
 
     auto appIcon = QIcon(":icons/res/musical_notec.png");
@@ -66,7 +69,7 @@ void MainWindow::initConnect()
     connect(audio_player.get(), &QMediaPlayer::playbackStateChanged, this, &MainWindow::stateChanged);
     connect(audio_player.get(), &QMediaPlayer::positionChanged, this, &MainWindow::positionChanged);
     // after media fully loaded, read its metadata and show infos
-    connect(audio_player.get(), &QMediaPlayer::mediaStatusChanged, this, &MainWindow::showMusicInfo);
+    connect(audio_player.get(), &QMediaPlayer::metaDataChanged, this, &MainWindow::showMusicInfo);
 
     // if not using auto connection by ui designer, use below connection
     // connect(ui->playButton, &QPushButton::clicked, this, &MainWindow::on_playButton_clicked); //...
@@ -83,17 +86,17 @@ void MainWindow::setShortCutsForAll()
 
 void MainWindow::positionChanged(qint64 position)
 {
-    if (audio_player->duration() != ui->progressSlider->maximum())
-        ui->progressSlider->setMaximum(audio_player->duration());
+    // if (audio_player->duration() != ui->progressSlider->maximum())
+    //     ui->progressSlider->setMaximum(audio_player->duration());
 
-    ui->progressSlider->setValue(position);
+    // ui->progressSlider->setValue(position);
 
-    const int base {1000};
-    auto seconds = (position / base) % 60;
-    auto minutes = (position/(60 * base)) % 60;
-    auto hours = (position/(3600 * base)) % 24;
-    QTime time(hours, minutes, seconds);
-    ui->durationDisplay->setText(time.toString());
+    // const int base {1000};
+    // auto seconds = (position / base) % 60;
+    // auto minutes = (position/(60 * base)) % 60;
+    // auto hours = (position/(3600 * base)) % 24;
+    // QTime time(hours, minutes, seconds);
+    // ui->durationDisplay->setText(time.toString());
 }
 
 void MainWindow::stateChanged(QMediaPlayer::PlaybackState state)
@@ -266,7 +269,7 @@ void MainWindow::on_backwardButton_clicked()
 
 void MainWindow::on_modeButton_clicked()
 {
-    ui->modeButton->showMenu();
+    //ui->modeButton->showMenu();
 }
 
 // play control
@@ -291,7 +294,6 @@ void MainWindow::startPlayingLive(QString urlString)
 inline void MainWindow::playListItem(QListWidgetItem* item)
 {
     QString file_path = item->data(Qt::UserRole).toString();
-    qDebug() << "-----------playurl:--------" << file_path;
     cur_station_name = item->text();
     startPlayingLive(file_path);
 }
@@ -316,33 +318,38 @@ void MainWindow::removeFromPlayList()
 
 void MainWindow::setOrderLoopMode()
 {
-    ui->modeButton->setIcon(QIcon(":icons/res/loopmodec.png"));
+    //ui->modeButton->setIcon(QIcon(":icons/res/loopmodec.png"));
     play_queue->setPlayMode(PQ::PlayMode::Order);
 }
 
 void MainWindow::setSingleLoopMode()
 {
-    ui->modeButton->setIcon(QIcon(":icons/res/loopb.png"));
+    //ui->modeButton->setIcon(QIcon(":icons/res/loopb.png"));
     play_queue->setPlayMode(PQ::PlayMode::Single);
 }
 
 void MainWindow::setRandomLoopMode()
 {
-    ui->modeButton->setIcon(QIcon(":icons/res/shuffle.png"));
+    //ui->modeButton->setIcon(QIcon(":icons/res/shuffle.png"));
     play_queue->setPlayMode(PQ::PlayMode::Shuffle);
 }
 
 // ui update
-void MainWindow::showMusicInfo(QMediaPlayer::MediaStatus status)
+void MainWindow::showMusicInfo()
 {
+    QMediaPlayer::MediaStatus status = audio_player->mediaStatus();
     if (status != QMediaPlayer::LoadedMedia) return;
+    // qDebug() << "--------------meta change!!!!!222--------------!!\n\n\n";
 
-    QMediaMetaData file_meta_data = audio_player->metaData();
-    qDebug() << file_meta_data.Url;
+    QMediaMetaData file_meta_data = audio_player->metaData();//  metaData();
+    qDebug() << "--------------meta change!!!!!--------------!!\n\n\n" << file_meta_data.keys();
 
-    QString title1 = file_meta_data.value(QMediaMetaData::Genre).toString();
+    qDebug() << "--------------meta change!!!!!--------------!!\n\n\n" << file_meta_data.keys();
 
-    qDebug() << "get meta info -------\n\n\n" << title1;
+    QString title1 = file_meta_data.value(QMediaMetaData::AlbumTitle).toString();
+     QString title2 = file_meta_data.stringValue(QMediaMetaData::Title);
+
+     qDebug() << "get meta info -------\n\n\n" << title1 << title2;
     // set image
     QVariant raw_image = file_meta_data.value(QMediaMetaData::ThumbnailImage);
     QImage cover_image = raw_image.value<QImage>();
@@ -434,7 +441,7 @@ void MainWindow::setModeButton()
     mode_menu->addAction(order_loop_action.get());
     mode_menu->addAction(single_loop_action.get());
     mode_menu->addAction(random_loop_action.get());
-    ui->modeButton->setMenu(mode_menu.get());
+    //ui->modeButton->setMenu(mode_menu.get());
 }
 
 void MainWindow::setMusicListMenu()
@@ -482,8 +489,6 @@ void MainWindow::setTrayIconMenu()
     tray_menu->addAction(play_prev_action.get());
     tray_menu->addAction(quit_action.get());
     tray_menu->toNSMenu();
-    //tray_menu->addAction(actionzhiboliebiao_action.get());
-
     tray_icon->setContextMenu(tray_menu.get());
 }
 

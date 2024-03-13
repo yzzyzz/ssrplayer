@@ -15,6 +15,7 @@
 #include <QAudioOutput>
 #include <QMediaMetaData>
 #include <QTime>
+#include <QAudio>
 #include <QtMath>
 #include <QSettings>
 #include <QCloseEvent>
@@ -132,7 +133,7 @@ private:
     void setRandomLoopMode();
 
     // ui update
-    void showMusicInfo(QMediaPlayer::MediaStatus);
+    void showMusicInfo();
     inline void updateItemSelectedUI(QListWidgetItem* cur_item, QListWidgetItem* new_item);
 
     // save/load settings

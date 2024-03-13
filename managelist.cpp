@@ -52,7 +52,6 @@ void ManageList::importToList2(QString sData)
         qDebug() << list1[i];
         if(list1[i].length()<10){break;}
         QStringList list2 = list1[i].split(",");
-
         QListWidgetItem* item = new QListWidgetItem;
         item->setIcon(QIcon(":/icons/res/music_notec2.png"));
         item->setText(list2[0]);
