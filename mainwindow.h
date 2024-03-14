@@ -26,6 +26,8 @@
 #include <QSystemTrayIcon>
 #include "playqueue.h"
 #include "managelist.h"
+#include "audioplayer.h"
+
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -81,6 +83,8 @@ private slots:
 private:
     Ui::MainWindow *ui;
     std::unique_ptr<QMediaPlayer> audio_player;
+    AudioPlayer player;
+
     std::unique_ptr<QAudioOutput> audio_output;
     std::unique_ptr<PlayQueue> play_queue;
     std::unique_ptr<ManageList> music_list;
@@ -133,7 +137,7 @@ private:
     void setRandomLoopMode();
 
     // ui update
-    void showMusicInfo();
+    void showMusicInfo(QString key, QString value) ;
     inline void updateItemSelectedUI(QListWidgetItem* cur_item, QListWidgetItem* new_item);
 
     // save/load settings

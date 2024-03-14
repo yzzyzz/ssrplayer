@@ -5,6 +5,15 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 CONFIG += c++17
 CONFIG -= debug_and_release debug_and_release_target
 
+
+LIBS += -L/opt/homebrew/Cellar/taglib/1.13.1/lib -ltag -lz
+INCLUDEPATH += /opt/homebrew/Cellar/taglib/1.13.1/include
+
+
+INCLUDEPATH += /opt/homebrew/Cellar/mpv/0.37.0_1/include
+LIBS += -L/opt/homebrew/Cellar/mpv/0.37.0_1/lib -lmpv
+
+
 # You can make your code fail to compile if it uses deprecated APIs.
 # In order to do so, uncomment the following line.
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
@@ -14,12 +23,17 @@ SOURCES += \
     main.cpp \
     mainwindow.cpp \
     managelist.cpp \
+    audioplayer.cpp \
+    metadata.cpp \
     playqueue.cpp
+
 
 HEADERS += \
     HttpClient.h \
     mainwindow.h \
     managelist.h \
+    audioplayer.h \
+    metadata.h \
     playqueue.h
 
 FORMS += \

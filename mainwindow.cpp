@@ -1,6 +1,9 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include <QJsonObject>
+#include <QJsonValue>
 #include <QDebug>
+#include <QJsonDocument>
 
 
 
@@ -21,13 +24,9 @@ MainWindow::MainWindow(QWidget *parent)
     readSettings();
 
     // player initialization
-    audio_player = std::unique_ptr<QMediaPlayer>(new QMediaPlayer(this));
-    audio_output = std::unique_ptr<QAudioOutput>(new QAudioOutput(this));
     play_queue = std::unique_ptr<PlayQueue>(new PlayQueue(ui->musicList));
     //play_obj =
-    //audio_player->setAudioRole(QAudio::MusicRole);
-    audio_player->setAudioOutput(audio_output.get());
-    audio_output->setVolume(50.0);
+    player.setVolume(50.0);
 
     // set key shortcuts
     setShortCutsForAll();
@@ -69,7 +68,14 @@ void MainWindow::initConnect()
     connect(audio_player.get(), &QMediaPlayer::playbackStateChanged, this, &MainWindow::stateChanged);
     connect(audio_player.get(), &QMediaPlayer::positionChanged, this, &MainWindow::positionChanged);
     // after media fully loaded, read its metadata and show infos
-    connect(audio_player.get(), &QMediaPlayer::metaDataChanged, this, &MainWindow::showMusicInfo);
+
+    //Metadata
+    connect(
+        &player,
+        &AudioPlayer::metadataChanged,
+        this,
+        &MainWindow::showMusicInfo
+        );
 
     // if not using auto connection by ui designer, use below connection
     // connect(ui->playButton, &QPushButton::clicked, this, &MainWindow::on_playButton_clicked); //...
@@ -196,14 +202,14 @@ void MainWindow::on_playButton_clicked()
     music_manually_stopped = false;
     if (play_button_clicked)
     {
-        audio_player->play();
+        player.playpause();
         ui->playButton->setIcon(QIcon(":/icons/res/pause_w.png"));
         play_action->setIcon(QIcon(":icons/res/pause.png"));
         play_action->setText("&Pause");
     }
     else
     {
-        audio_player->pause();
+        player.playpause();
         ui->playButton->setIcon(QIcon(":/icons/res/play_w.png"));
         play_action->setIcon(QIcon(":icons/res/play.png"));
         play_action->setText("&Play");
@@ -215,7 +221,7 @@ void MainWindow::on_stopButton_clicked()
     // when state changes to stop, <music_manually_stopped>'ll be checked, set it before stop()
     music_manually_stopped = true;
     play_button_clicked = false;
-    audio_player->stop();
+    player.stop();
     ui->playButton->setIcon(QIcon(":/icons/res/play_w.png"));
 }
 
@@ -224,14 +230,14 @@ void MainWindow::on_volumeButton_clicked()
     volume_button_clicked = !volume_button_clicked;
     if (volume_button_clicked)
     {
-        cached_volume = audio_output->volume();
-        audio_output->setVolume(0);
+        cached_volume = player.volume();
+        player.setVolume(0);
         ui->volumeButton->setIcon(QIcon(":/icons/res/volume_mute_w.png"));
         ui->volumeDisplay->setText("0%");
     }
     else
     {
-        audio_output->setVolume(cached_volume);
+        player.setVolume(cached_volume);
         ui->volumeButton->setIcon(QIcon(":/icons/res/volume_w.png"));
         ui->volumeDisplay->setText(QString::number(static_cast<int>(cached_volume * 100)) + "%");
     }
@@ -285,8 +291,7 @@ void MainWindow::startPlayingNew(QFileInfo file_info)
 void MainWindow::startPlayingLive(QString urlString)
 { // do not modify this function, it's under inspection
     ui->stopButton->click();
-    QUrl url1(urlString);
-    audio_player->setSource(url1);
+    player.open(urlString.toUtf8());
     if (play_button_clicked) ui->playButton->click();
     ui->playButton->click();
 }
@@ -334,46 +339,68 @@ void MainWindow::setRandomLoopMode()
     play_queue->setPlayMode(PQ::PlayMode::Shuffle);
 }
 
+
+
+
 // ui update
-void MainWindow::showMusicInfo()
-{
-    QMediaPlayer::MediaStatus status = audio_player->mediaStatus();
-    if (status != QMediaPlayer::LoadedMedia) return;
-    // qDebug() << "--------------meta change!!!!!222--------------!!\n\n\n";
+void MainWindow::showMusicInfo(QString key, QString value) {
+    qDebug() << "--------------meta change!!!!!222--------------!!\n\n\n" << value;
 
-    QMediaMetaData file_meta_data = audio_player->metaData();//  metaData();
-    qDebug() << "--------------meta change!!!!!--------------!!\n\n\n" << file_meta_data.keys();
+    QJsonDocument json_data = QJsonDocument::fromJson(value.toUtf8());
+    QJsonObject jsonMetadata = json_data.object();
 
-    qDebug() << "--------------meta change!!!!!--------------!!\n\n\n" << file_meta_data.keys();
-
-    QString title1 = file_meta_data.value(QMediaMetaData::AlbumTitle).toString();
-     QString title2 = file_meta_data.stringValue(QMediaMetaData::Title);
-
-     qDebug() << "get meta info -------\n\n\n" << title1 << title2;
-    // set image
-    QVariant raw_image = file_meta_data.value(QMediaMetaData::ThumbnailImage);
-    QImage cover_image = raw_image.value<QImage>();
-
-    if (!cover_image.isNull())
-        ui->musicGraphics->setPixmap(QPixmap::fromImage(cover_image));
-    else
-        ui->musicGraphics->setPixmap(QPixmap(":icons/res/musical_notec.png"));
-
-    // set music title & author infos
-    QString title = file_meta_data.value(QMediaMetaData::Title).toString();
-    QString author = file_meta_data.value(QMediaMetaData::Author).toString();
-
-    if (!title.isEmpty() && !author.isEmpty())
-        ui->musicNameDisplay->setText(\
-         "Playing " + title + "...<br>Musician ("+ author\
-         + ")<br>File (" + cur_station_name + ")");
-    else
-        ui->musicNameDisplay->setText("Playing <"+ cur_station_name + ">...");
-
-    // also show music info in tray icon tooltips
+    QString setTex = cur_station_name;
+    // if(jsonMetadata.contains("icy-name")){
+    //     setTex = jsonMetadata.value("icy-name").toString();
+    // }
+    if(jsonMetadata.contains("icy-title")){
+        setTex += "\n"+jsonMetadata.value("icy-title").toString();
+        tray_menu->setTitle(jsonMetadata.value("icy-title").toString());
+    }
     tray_icon->setToolTip("Playing <"+ cur_station_name + ">...");
+    ui->musicNameDisplay->setText(setTex);
 }
+/*
+{
+    ;
+    qDebug() << "--------------meta change!!!!!222--------------!!\n\n\n";
+    // QMediaPlayer::MediaStatus status = audio_player->mediaStatus();
+    // if (status != QMediaPlayer::LoadedMedia) return;
+    // // qDebug() << "--------------meta change!!!!!222--------------!!\n\n\n";
 
+    // QMediaMetaData file_meta_data = audio_player->metaData();//  metaData();
+    // qDebug() << "--------------meta change!!!!!--------------!!\n\n\n" << file_meta_data.keys();
+
+    // qDebug() << "--------------meta change!!!!!--------------!!\n\n\n" << file_meta_data.keys();
+
+    // QString title1 = file_meta_data.value(QMediaMetaData::AlbumTitle).toString();
+    //  QString title2 = file_meta_data.stringValue(QMediaMetaData::Title);
+
+    //  qDebug() << "get meta info -------\n\n\n" << title1 << title2;
+    // // set image
+    // QVariant raw_image = file_meta_data.value(QMediaMetaData::ThumbnailImage);
+    // QImage cover_image = raw_image.value<QImage>();
+
+    // if (!cover_image.isNull())
+    //     ui->musicGraphics->setPixmap(QPixmap::fromImage(cover_image));
+    // else
+    //     ui->musicGraphics->setPixmap(QPixmap(":icons/res/musical_notec.png"));
+
+    // // set music title & author infos
+    // QString title = file_meta_data.value(QMediaMetaData::Title).toString();
+    // QString author = file_meta_data.value(QMediaMetaData::Author).toString();
+
+    // if (!title.isEmpty() && !author.isEmpty())
+    //     ui->musicNameDisplay->setText(\
+    //      "Playing " + title + "...<br>Musician ("+ author\
+    //      + ")<br>File (" + cur_station_name + ")");
+    // else
+    //     ui->musicNameDisplay->setText("Playing <"+ cur_station_name + ">...");
+
+    // // also show music info in tray icon tooltips
+    // tray_icon->setToolTip("Playing <"+ cur_station_name + ">...");
+}
+*/
 
 // save/load settings
 void MainWindow::writeSettings()
