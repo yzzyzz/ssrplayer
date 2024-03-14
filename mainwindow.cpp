@@ -343,8 +343,6 @@ void MainWindow::setRandomLoopMode()
 
 // ui update
 void MainWindow::showMusicInfo(QString key, QString value) {
-    qDebug() << "--------------meta change!!!!!222--------------!!\n\n\n" << value;
-
     QJsonDocument json_data = QJsonDocument::fromJson(value.toUtf8());
     QJsonObject jsonMetadata = json_data.object();
 
@@ -356,80 +354,15 @@ void MainWindow::showMusicInfo(QString key, QString value) {
         QString sAudioTitle = jsonMetadata.value("icy-title").toString();
         setTex += "\n"+sAudioTitle;
         tray_menu->setTitle(setTex);
-
         //QString PicUrl1 =  "http://gz.999887.xyz/getmusicpic.php?title="+sAudioTitle+"&pictype=hires";
-        QString PicUrl1 = "http://gz.999887.xyz/12883434527-500.jpg";
-        // [[1]] GET 请求无参数
-        HttpClient(PicUrl1).success([this](const QString &response) {
-                                                            qDebug() << response;
-
-                           QJsonObject jsonPicRet = QJsonDocument::fromJson(response.toUtf8()).object();
-                                                            if(jsonPicRet.contains("picurl") && jsonPicRet.value("picurl").toString().length()>6){
-
-                               QVariant raw_image =
-                                QImage cover_image = raw_image.value<QImage>();
-
-                               // if (!cover_image.isNull())
-                               //     ui->musicGraphics->setPixmap(QPixmap::fromImage(cover_image));
-                               // else
-                               //     ui->musicGraphics->setPixmap(QPixmap(":icons/res/musical_notec.png"));
-
-                           }
-
-                                                            //importToList2(response);
-        }).get();
-
-    }
+        //QString PicUrl1 = "http://gz.999887.xyz/12883434527-500.jpg";
 
     // http://gz.999887.xyz/getmusicpic.php?title=%E9%82%93%E4%B8%BD%E5%90%9B-%E7%94%9C%E8%9C%9C%E8%9C%9C&pictype=hires
+    }
     tray_icon->setToolTip("Playing <"+ cur_station_name + ">...");
     ui->musicNameDisplay->setText(setTex);
-
-
-
-
 }
-/*
-{
-    ;
-    qDebug() << "--------------meta change!!!!!222--------------!!\n\n\n";
-    // QMediaPlayer::MediaStatus status = audio_player->mediaStatus();
-    // if (status != QMediaPlayer::LoadedMedia) return;
-    // // qDebug() << "--------------meta change!!!!!222--------------!!\n\n\n";
 
-    // QMediaMetaData file_meta_data = audio_player->metaData();//  metaData();
-    // qDebug() << "--------------meta change!!!!!--------------!!\n\n\n" << file_meta_data.keys();
-
-    // qDebug() << "--------------meta change!!!!!--------------!!\n\n\n" << file_meta_data.keys();
-
-    // QString title1 = file_meta_data.value(QMediaMetaData::AlbumTitle).toString();
-    //  QString title2 = file_meta_data.stringValue(QMediaMetaData::Title);
-
-    //  qDebug() << "get meta info -------\n\n\n" << title1 << title2;
-    // // set image
-    // QVariant raw_image = file_meta_data.value(QMediaMetaData::ThumbnailImage);
-    // QImage cover_image = raw_image.value<QImage>();
-
-    // if (!cover_image.isNull())
-    //     ui->musicGraphics->setPixmap(QPixmap::fromImage(cover_image));
-    // else
-    //     ui->musicGraphics->setPixmap(QPixmap(":icons/res/musical_notec.png"));
-
-    // // set music title & author infos
-    // QString title = file_meta_data.value(QMediaMetaData::Title).toString();
-    // QString author = file_meta_data.value(QMediaMetaData::Author).toString();
-
-    // if (!title.isEmpty() && !author.isEmpty())
-    //     ui->musicNameDisplay->setText(\
-    //      "Playing " + title + "...<br>Musician ("+ author\
-    //      + ")<br>File (" + cur_station_name + ")");
-    // else
-    //     ui->musicNameDisplay->setText("Playing <"+ cur_station_name + ">...");
-
-    // // also show music info in tray icon tooltips
-    // tray_icon->setToolTip("Playing <"+ cur_station_name + ">...");
-}
-*/
 
 // save/load settings
 void MainWindow::writeSettings()

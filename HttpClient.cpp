@@ -437,12 +437,12 @@ QNetworkRequest HttpClientPrivate::createRequest(HttpClientPrivate *d, HttpClien
 // 读取服务器响应的数据
 QString HttpClientPrivate::readReply(QNetworkReply *reply, const QString &charset) {
     QTextStream in(reply);
-    QString result;
-    in.setAutoDetectUnicode(true);
+    QString result = in.readAll();
+    // in.setAutoDetectUnicode(true);
 
-    while (!in.atEnd()) {
-        result += in.readLine()+"\n";
-    }
+    // while (!in.atEnd()) {
+    //     result += in.readLine()+"\n";
+    // }
     return result;
 }
 
