@@ -451,7 +451,6 @@ QString HttpClientPrivate::readReply(QNetworkReply* reply, const QString& charse
     QTextStream in(reply);
     QString result = in.readAll();
     // in.setAutoDetectUnicode(true);
-
     // while (!in.atEnd()) {
     //     result += in.readLine()+"\n";
     // }

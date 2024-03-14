@@ -362,7 +362,7 @@ void MainWindow::showMusicInfo(QString key, QString value)
                            })
             .get();
 
-        // QString PicUrl1 =  "http://gz.999887.xyz/getmusicpic.php?title="+sAudioTitle+"&pictype=hires";
+        //  QString PicUrl1 =  "http://gz.999887.xyz/getmusicpic.php?title="+sAudioTitle+"&pictype=hires";
         // QString PicUrl1 = "http://gz.999887.xyz/12883434527-500.jpg";
         // http://gz.999887.xyz/getmusicpic.php?title=%E9%82%93%E4%B8%BD%E5%90%9B-%E7%94%9C%E8%9C%9C%E8%9C%9C&pictype=hires
     }
