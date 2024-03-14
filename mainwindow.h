@@ -26,6 +26,7 @@
 #include <QSystemTrayIcon>
 #include "playqueue.h"
 #include "managelist.h"
+#include "asyncimageloader.h"
 #include "audioplayer.h"
 
 
@@ -42,6 +43,8 @@ public:
     ~MainWindow();
     void stateChanged(QMediaPlayer::PlaybackState state);
     void positionChanged(qint64 position);
+    void showPicture( QImage coverimage);
+
 
 protected:
     void closeEvent(QCloseEvent *event) override;
@@ -84,6 +87,8 @@ private:
     Ui::MainWindow *ui;
     std::unique_ptr<QMediaPlayer> audio_player;
     AudioPlayer player;
+    AsyncImageLoader imageLoader;
+
 
     std::unique_ptr<QAudioOutput> audio_output;
     std::unique_ptr<PlayQueue> play_queue;

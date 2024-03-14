@@ -25,6 +25,7 @@ SOURCES += \
     managelist.cpp \
     audioplayer.cpp \
     metadata.cpp \
+    asyncimageloader.cpp \
     playqueue.cpp
 
 
@@ -34,6 +35,7 @@ HEADERS += \
     managelist.h \
     audioplayer.h \
     metadata.h \
+    asyncimageloader.h \
     playqueue.h
 
 FORMS += \

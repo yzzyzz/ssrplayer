@@ -5,6 +5,7 @@
 #include <QJsonValue>
 #include <QDebug>
 #include <QJsonDocument>
+#include <asyncimageloader.h>
 
 
 
@@ -67,7 +68,13 @@ void MainWindow::initConnect()
     connect(audio_player.get(), &QMediaPlayer::playbackStateChanged, this, &MainWindow::stateChanged);
     connect(audio_player.get(), &QMediaPlayer::positionChanged, this, &MainWindow::positionChanged);
     // after media fully loaded, read its metadata and show infos
-
+    connect(&imageLoader, &AsyncImageLoader::imageLoaded, this, &MainWindow::showPicture);
+/*
+ [this](const QImage &image) {
+        qDebug() << "Image loaded with size:" << image.size();
+        //quit();
+    });
+*/
     //Metadata
     connect(
         &player,
@@ -354,9 +361,25 @@ void MainWindow::showMusicInfo(QString key, QString value) {
         QString sAudioTitle = jsonMetadata.value("icy-title").toString();
         setTex += "\n"+sAudioTitle;
         tray_menu->setTitle(setTex);
+
+        QString PicUrl1 =  "http://gz.999887.xyz/getmusicpic.php?title="+sAudioTitle+"&pictype=hires";
+                HttpClient(PicUrl1).success([this](const QString &response) {
+                                                                                           qDebug() << response;
+
+                                                               QJsonObject jsonPicRet = QJsonDocument::fromJson(response.toUtf8()).object();
+                                                                                            if(jsonPicRet.contains("picurl") && jsonPicRet.value("picurl").toString().length()>6){
+
+                                                                   QUrl imageUrl(jsonPicRet.value("picurl").toString());
+                                                                   imageLoader.loadImage(imageUrl);
+                                                                   }
+
+                                                                                                //importToList2(response);
+                                            }).get();
+
+
+
         //QString PicUrl1 =  "http://gz.999887.xyz/getmusicpic.php?title="+sAudioTitle+"&pictype=hires";
         //QString PicUrl1 = "http://gz.999887.xyz/12883434527-500.jpg";
-
     // http://gz.999887.xyz/getmusicpic.php?title=%E9%82%93%E4%B8%BD%E5%90%9B-%E7%94%9C%E8%9C%9C%E8%9C%9C&pictype=hires
     }
     tray_icon->setToolTip("Playing <"+ cur_station_name + ">...");
@@ -525,6 +548,16 @@ void MainWindow::on_actionzhibo1_triggered()
 {
     ;//return;
     //startPlayingLive();
+}
+
+
+void MainWindow::showPicture(QImage coverimage)
+{
+    qDebug() << "Image loaded with size:" << coverimage.size();
+    if (!coverimage.isNull())
+        ui->musicGraphics->setPixmap(QPixmap::fromImage(coverimage));
+    else
+        ui->musicGraphics->setPixmap(QPixmap(":icons/res/musical_notec.png"));
 }
 
 
