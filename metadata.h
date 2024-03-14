@@ -24,11 +24,10 @@ Copyright (C) 2018  Salvo "LtWorf" Tomaselli <tiposchi@tiscali.it>
 #include <QObject>
 #include <QString>
 
-class Metadata : public QObject
-{
+class Metadata : public QObject {
     Q_OBJECT
 public:
-    explicit Metadata(QObject *parent = nullptr);
+    explicit Metadata(QObject* parent = nullptr);
 
     Q_PROPERTY(QString album READ album NOTIFY albumChanged)
     Q_PROPERTY(QString album_artist READ album_artist NOTIFY album_artistChanged)
@@ -68,7 +67,7 @@ public slots:
     QString track();
 
 private:
-    QMap<QString,QString> _map;
+    QMap<QString, QString> _map;
 };
 
 #endif // METADATA_H

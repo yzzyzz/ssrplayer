@@ -1,53 +1,51 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include <QMainWindow>
-#include <QFileDialog>
-#include <QInputDialog>
-#include <QPixmap>
-#include <QGraphicsScene>
-#include <QPainter>
+#include "asyncimageloader.h"
+#include "audioplayer.h"
+#include "managelist.h"
+#include "playqueue.h"
 #include <QApplication>
+#include <QAudio>
+#include <QAudioOutput>
+#include <QCloseEvent>
 #include <QCoreApplication>
 #include <QDebug>
 #include <QFileDialog>
-#include <QMediaPlayer>
-#include <QAudioOutput>
-#include <QMediaMetaData>
-#include <QTime>
-#include <QAudio>
-#include <QtMath>
-#include <QSettings>
-#include <QCloseEvent>
+#include <QGraphicsScene>
+#include <QInputDialog>
 #include <QListWidgetItem>
+#include <QMainWindow>
+#include <QMediaMetaData>
+#include <QMediaPlayer>
 #include <QMessageBox>
+#include <QPainter>
+#include <QPixmap>
+#include <QSettings>
 #include <QShortcut>
-#include <memory>
 #include <QSystemTrayIcon>
-#include "playqueue.h"
-#include "managelist.h"
-#include "asyncimageloader.h"
-#include "audioplayer.h"
-
+#include <QTime>
+#include <QtMath>
+#include <memory>
 
 QT_BEGIN_NAMESPACE
-namespace Ui { class MainWindow; }
+namespace Ui {
+class MainWindow;
+}
 QT_END_NAMESPACE
 
-class MainWindow : public QMainWindow
-{
+class MainWindow : public QMainWindow {
     Q_OBJECT
 
 public:
-    MainWindow(QWidget *parent = nullptr);
+    MainWindow(QWidget* parent = nullptr);
     ~MainWindow();
     void stateChanged(QMediaPlayer::PlaybackState state);
     void positionChanged(qint64 position);
-    void showPicture( QImage coverimage);
-
+    void showPicture(QImage coverimage);
 
 protected:
-    void closeEvent(QCloseEvent *event) override;
+    void closeEvent(QCloseEvent* event) override;
 
 private slots:
 
@@ -84,11 +82,10 @@ private slots:
     void on_actiongetlist_triggered();
 
 private:
-    Ui::MainWindow *ui;
+    Ui::MainWindow* ui;
     std::unique_ptr<QMediaPlayer> audio_player;
     AudioPlayer player;
     AsyncImageLoader imageLoader;
-
 
     std::unique_ptr<QAudioOutput> audio_output;
     std::unique_ptr<PlayQueue> play_queue;
@@ -142,7 +139,7 @@ private:
     void setRandomLoopMode();
 
     // ui update
-    void showMusicInfo(QString key, QString value) ;
+    void showMusicInfo(QString key, QString value);
     inline void updateItemSelectedUI(QListWidgetItem* cur_item, QListWidgetItem* new_item);
 
     // save/load settings
@@ -158,7 +155,7 @@ private:
     // manage context Menu
     void setMusicListMenu();
     void connectMusicListMenu();
-    void showMusicListMenu(const QPoint &pos);
+    void showMusicListMenu(const QPoint& pos);
 
     void setTrayIcon(const QIcon& appIcon);
     void setTrayIconMenu();

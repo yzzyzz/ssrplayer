@@ -1,38 +1,38 @@
 #ifndef PLAYQUEUE_H
 #define PLAYQUEUE_H
 
+#include <QListWidget>
+#include <QListWidgetItem>
 #include <QObject>
 #include <QQueue>
 #include <QStack>
-#include <QListWidget>
-#include <QListWidgetItem>
 #include <random>
 
 // 导入必备的两个网络操作库
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
 
-
-
 QT_BEGIN_NAMESPACE
-namespace PQ { class PlayQueue;}
+namespace PQ {
+class PlayQueue;
+}
 QT_END_NAMESPACE
 
-namespace PQ
-{
-    enum PlayMode {Order, Single, Shuffle};
+namespace PQ {
+enum PlayMode { Order,
+    Single,
+    Shuffle };
 }
 
-class PlayQueue : public QObject
-{
+class PlayQueue : public QObject {
     Q_OBJECT
-    #define HISTORYSIZE 200
-    #define QUEUESIZE 200
-    #define AUTO_QUEUE_BATCH 10
-    #define AUTO_STACK_BATCH 10
+#define HISTORYSIZE 200
+#define QUEUESIZE 200
+#define AUTO_QUEUE_BATCH 10
+#define AUTO_STACK_BATCH 10
 
 public:
-    explicit PlayQueue(QListWidget* init_play_list, QObject *parent = nullptr);
+    explicit PlayQueue(QListWidget* init_play_list, QObject* parent = nullptr);
     ~PlayQueue();
 
     // queue setttings
@@ -52,7 +52,6 @@ public:
 private slots:
 
 private:
-
     std::random_device rand_dev;
     std::mt19937 generator;
 

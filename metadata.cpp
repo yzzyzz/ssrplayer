@@ -19,12 +19,13 @@ Copyright (C) 2018  Salvo "LtWorf" Tomaselli <tiposchi@tiscali.it>
 
 #include "metadata.h"
 
-Metadata::Metadata(QObject *parent) : QObject(parent)
+Metadata::Metadata(QObject* parent)
+    : QObject(parent)
 {
-
 }
 
-void Metadata::setMetadata(QString key, QString value) {
+void Metadata::setMetadata(QString key, QString value)
+{
     _map[key] = value;
     if (key == "album")
         emit albumChanged(value);
@@ -48,7 +49,8 @@ void Metadata::setMetadata(QString key, QString value) {
         emit trackChanged(value);
 }
 
-void Metadata::clear() {
+void Metadata::clear()
+{
     _map.clear();
     emit albumChanged("");
     emit album_artistChanged("");

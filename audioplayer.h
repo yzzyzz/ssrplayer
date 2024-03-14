@@ -20,14 +20,13 @@ Copyright (C) 2018  Salvo "LtWorf" Tomaselli <tiposchi@tiscali.it>
 #ifndef AUDIOPLAYER_H
 #define AUDIOPLAYER_H
 
-#include <QObject>
 #include <QByteArray>
+#include <QObject>
 #include <mpv/client.h>
 
 #include "metadata.h"
 
-class AudioPlayer : public QObject
-{
+class AudioPlayer : public QObject {
     Q_OBJECT
 public:
     AudioPlayer(QObject* parent = 0);
@@ -42,32 +41,28 @@ public:
     Q_ENUM(States)
 
     Q_PROPERTY(
-            States state
+        States state
             READ state
-            NOTIFY stateChanged
-    )
+                NOTIFY stateChanged)
 
     Q_PROPERTY(
-            double volume
+        double volume
             READ volume
-            WRITE setVolume
-            NOTIFY volumeChanged
-    )
+                WRITE setVolume
+                    NOTIFY volumeChanged)
 
     Q_PROPERTY(double duration
-               READ duration
-               NOTIFY durationChanged
-    )
+            READ duration
+                NOTIFY durationChanged)
 
     Q_PROPERTY(
-            double progress
+        double progress
             READ progress
-            WRITE seek
-            NOTIFY progressChanged
-    )
+                WRITE seek
+                    NOTIFY progressChanged)
 
 private:
-    mpv_handle *mpv = NULL;
+    mpv_handle* mpv = NULL;
     void handle_mpv_event(mpv_event*);
     double _duration;
     double _progress;

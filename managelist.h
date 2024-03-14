@@ -1,24 +1,25 @@
 #ifndef MANAGELIST_H
 #define MANAGELIST_H
 
-#include <QObject>
 #include <QDir>
-#include <QSettings>
 #include <QListWidget>
+#include <QObject>
+#include <QSettings>
 
 QT_BEGIN_NAMESPACE
-namespace ML { class ManageList;}
+namespace ML {
+class ManageList;
+}
 QT_END_NAMESPACE
 
-class ManageList : public QObject
-{
+class ManageList : public QObject {
     Q_OBJECT
 
 signals:
     void updateUiList(QString value);
 
 public:
-    explicit ManageList(QListWidget* init_list, QObject *parent = nullptr);
+    explicit ManageList(QListWidget* init_list, QObject* parent = nullptr);
     ~ManageList();
 
     // operations
@@ -37,12 +38,11 @@ public:
     void loadList(QSettings& settings, QString list_name);
 
     // getters & setters
-    void setItem_list(QListWidget *newMusic_list);
-    QListWidget *getItem_list() const;
+    void setItem_list(QListWidget* newMusic_list);
+    QListWidget* getItem_list() const;
 
 private:
     QListWidget* item_list;
-
 };
 
 #endif // MANAGELIST_H
