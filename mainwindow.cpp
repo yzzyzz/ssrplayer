@@ -350,16 +350,17 @@ void MainWindow::showMusicInfo(QString key, QString value)
         tray_menu->setTitle(setTex);
 
         QString PicUrl1 = "http://gz.999887.xyz/getmusicpic.php?title=" + sAudioTitle + "&pictype=hires";
-        HttpClient(PicUrl1).success([this](const QString& response) {
-                               qDebug() << response;
-                               QJsonObject jsonPicRet = QJsonDocument::fromJson(response.toUtf8()).object();
-                               if (jsonPicRet.contains("picurl") && jsonPicRet.value("picurl").toString().length() > 6) {
-                                   QUrl imageUrl(jsonPicRet.value("picurl").toString());
-                                   imageLoader.loadImage(imageUrl);
-                               }
+        HttpClient(PicUrl1)
+            .success([this](const QString& response) {
+                qDebug() << response;
+                QJsonObject jsonPicRet = QJsonDocument::fromJson(response.toUtf8()).object();
+                if (jsonPicRet.contains("picurl") && jsonPicRet.value("picurl").toString().length() > 6) {
+                    QUrl imageUrl(jsonPicRet.value("picurl").toString());
+                    imageLoader.loadImage(imageUrl);
+                }
 
-                               // importToList2(response);
-                           })
+                // importToList2(response);
+            })
             .get();
 
         //  QString PicUrl1 =  "http://gz.999887.xyz/getmusicpic.php?title="+sAudioTitle+"&pictype=hires";

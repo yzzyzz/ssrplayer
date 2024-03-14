@@ -61,10 +61,10 @@ void ManageList::importToList2(QString sData)
 void ManageList::importLiveList()
 {
     // [[1]] GET 请求无参数
-    HttpClient("http://122.51.216.6:8005/radio.php").success([this](const QString& response) {
-                                                        // qDebug() << response;
-                                                        importToList2(response);
-                                                    })
+    HttpClient("http://122.51.216.6:8005/radio.php")
+        .success([this](const QString& response) {
+            importToList2(response);
+        })
         .get();
 }
 
