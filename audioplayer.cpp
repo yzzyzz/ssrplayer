@@ -237,14 +237,10 @@ Metadata* AudioPlayer::metadata() {
 // This slot is invoked by wakeup() (through the mpv_events signal).
 void AudioPlayer::on_mpv_events()
 {
-    int a =0;
     // Process all events, until the event queue is empty.
     while (mpv) {
         mpv_event *event = mpv_wait_event(mpv, 0);
-
         if (event->event_id == MPV_EVENT_NONE){
-            a +=1;
-            qDebug() << "event over  MPV_EVENT_NONE "<<a;
             break;
         }
         handle_mpv_event(event);

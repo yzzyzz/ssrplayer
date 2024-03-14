@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include "HttpClient.h"
 #include <QJsonObject>
 #include <QJsonValue>
 #include <QDebug>
@@ -47,12 +48,10 @@ MainWindow::MainWindow(QWidget *parent)
     ui->playButton->setEnabled(true);
     ui->stopButton->setEnabled(false);
 
-
     setMusicListMenu();
     connectMusicListMenu();
     setModeButton();
     // set stylesheet
-    // ...
     // signal&slot connecttion
     initConnect();
 }
@@ -354,11 +353,41 @@ void MainWindow::showMusicInfo(QString key, QString value) {
     //     setTex = jsonMetadata.value("icy-name").toString();
     // }
     if(jsonMetadata.contains("icy-title")){
-        setTex += "\n"+jsonMetadata.value("icy-title").toString();
-        tray_menu->setTitle(jsonMetadata.value("icy-title").toString());
+        QString sAudioTitle = jsonMetadata.value("icy-title").toString();
+        setTex += "\n"+sAudioTitle;
+        tray_menu->setTitle(setTex);
+
+        //QString PicUrl1 =  "http://gz.999887.xyz/getmusicpic.php?title="+sAudioTitle+"&pictype=hires";
+        QString PicUrl1 = "http://gz.999887.xyz/12883434527-500.jpg";
+        // [[1]] GET 请求无参数
+        HttpClient(PicUrl1).success([this](const QString &response) {
+                                                            qDebug() << response;
+
+                           QJsonObject jsonPicRet = QJsonDocument::fromJson(response.toUtf8()).object();
+                                                            if(jsonPicRet.contains("picurl") && jsonPicRet.value("picurl").toString().length()>6){
+
+                               QVariant raw_image =
+                                QImage cover_image = raw_image.value<QImage>();
+
+                               // if (!cover_image.isNull())
+                               //     ui->musicGraphics->setPixmap(QPixmap::fromImage(cover_image));
+                               // else
+                               //     ui->musicGraphics->setPixmap(QPixmap(":icons/res/musical_notec.png"));
+
+                           }
+
+                                                            //importToList2(response);
+        }).get();
+
     }
+
+    // http://gz.999887.xyz/getmusicpic.php?title=%E9%82%93%E4%B8%BD%E5%90%9B-%E7%94%9C%E8%9C%9C%E8%9C%9C&pictype=hires
     tray_icon->setToolTip("Playing <"+ cur_station_name + ">...");
     ui->musicNameDisplay->setText(setTex);
+
+
+
+
 }
 /*
 {
