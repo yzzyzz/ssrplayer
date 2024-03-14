@@ -28,5 +28,6 @@
         <file>res/loopmodec.png</file>
         <file>res/loopb.png</file>
         <file>res/shuffle.png</file>
+        <file>res/defaultcover.png</file>
     </qresource>
 </RCC>

@@ -22,12 +22,10 @@ MainWindow::MainWindow(QWidget* parent)
     // you should read settings after ui is set up
     // since you may want to initialize some components in ui
     readSettings();
-
     // player initialization
     play_queue = std::unique_ptr<PlayQueue>(new PlayQueue(ui->musicList));
     // play_obj =
     player.setVolume(50.0);
-
     // set key shortcuts
     setShortCutsForAll();
     // set Menu & actions
@@ -40,12 +38,13 @@ MainWindow::MainWindow(QWidget* parent)
     auto appIcon = QIcon(":icons/res/musical_notec.png");
     setTrayIcon(appIcon);
     setWindowIcon(appIcon);
-    default_music_image = QPixmap(":icons/res/musical_notec.png");
+    default_music_image = QPixmap(":icons/res/defaultcover.png");
     this->setProperty("windowOpacity", 1.0);
 
     // other ui componet settings
     ui->playButton->setEnabled(true);
     ui->stopButton->setEnabled(false);
+    // ui->musicGraphics->setPixmap(QPixmap(":icons/res/defaultcover.png"));
 
     setMusicListMenu();
     connectMusicListMenu();
@@ -89,7 +88,6 @@ void MainWindow::setShortCutsForAll()
     ui->playButton->setShortcut(QKeySequence("Space"));
     ui->stopButton->setShortcut(QKeySequence("Ctrl+C"));
     ui->forwardButton->setShortcut(QKeySequence("Ctrl+Right"));
-    ui->backwardButton->setShortcut(QKeySequence("Ctrl+Left"));
     ui->volumeButton->setShortcut(QKeySequence("Ctrl+O"));
 }
 
@@ -290,6 +288,7 @@ void MainWindow::startPlayingLive(QString urlString)
     if (play_button_clicked)
         ui->playButton->click();
     ui->playButton->click();
+    ui->stationName->setText(cur_station_name);
 }
 
 inline void MainWindow::playListItem(QListWidgetItem* item)
@@ -340,13 +339,14 @@ void MainWindow::showMusicInfo(QString key, QString value)
     QJsonDocument json_data = QJsonDocument::fromJson(value.toUtf8());
     QJsonObject jsonMetadata = json_data.object();
 
-    QString setTex = cur_station_name;
+    QString setTex = "";
     // if(jsonMetadata.contains("icy-name")){
     //     setTex = jsonMetadata.value("icy-name").toString();
     // }
     if (jsonMetadata.contains("icy-title")) {
         QString sAudioTitle = jsonMetadata.value("icy-title").toString();
-        setTex += "\n" + sAudioTitle;
+        setTex = sAudioTitle;
+        setTex.replace("-", "\n");
         tray_menu->setTitle(setTex);
 
         QString PicUrl1 = "http://gz.999887.xyz/getmusicpic.php?title=" + sAudioTitle + "&pictype=hires";
@@ -358,7 +358,6 @@ void MainWindow::showMusicInfo(QString key, QString value)
                     QUrl imageUrl(jsonPicRet.value("picurl").toString());
                     imageLoader.loadImage(imageUrl);
                 }
-
                 // importToList2(response);
             })
             .get();
@@ -536,10 +535,31 @@ void MainWindow::on_actionzhibo1_triggered()
 void MainWindow::showPicture(QImage coverimage)
 {
     qDebug() << "Image loaded with size:" << coverimage.size();
-    if (!coverimage.isNull())
+    if (!coverimage.isNull()) {
         ui->musicGraphics->setPixmap(QPixmap::fromImage(coverimage));
-    else
-        ui->musicGraphics->setPixmap(QPixmap(":icons/res/musical_notec.png"));
+
+        QImage blurredImage = coverimage;
+
+        // 在临时图片上进行模糊处理
+        blurredImage = blurredImage.scaled(blurredImage.size() / 32, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+        blurredImage = blurredImage.scaled(coverimage.size(), Qt::KeepAspectRatio, Qt::SmoothTransformation);
+
+        // 创建一个临时图片用于模糊处理
+
+        QPalette palette;
+        palette.setBrush(backgroundRole(), QPixmap::fromImage(blurredImage));
+
+        setPalette(palette);
+        // setAutoFillBackground(false);
+
+        // QGraphicsBlurEffect* blurEffect = new QGraphicsBlurEffect; // 模糊效果
+        // // 设置颜模糊半:%径
+        // blurEffect->setBlurRadius(10);
+        // ui->centralwidget->setGraphicsEffect(blurEffect);
+        //  ui->centralwidget->
+    } else {
+        ui->musicGraphics->setPixmap(QPixmap(":icons/res/defaultcover.png"));
+    }
 }
 
 void MainWindow::on_actiongetlist_triggered()

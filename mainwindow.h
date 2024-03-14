@@ -12,6 +12,10 @@
 #include <QCoreApplication>
 #include <QDebug>
 #include <QFileDialog>
+#include <QGraphicsBlurEffect>
+#include <QGraphicsColorizeEffect>
+#include <QGraphicsDropShadowEffect>
+#include <QGraphicsOpacityEffect>
 #include <QGraphicsScene>
 #include <QInputDialog>
 #include <QListWidgetItem>
