@@ -279,7 +279,7 @@ margin:0 0 2 0;</string>
         </property>
         <property name="styleSheet">
          <string notr="true">QLabel {
-	border: 2px solid  rgb(0, 0, 0);
+	border: 0px solid  rgb(0, 0, 0);
 	border-radius: 4px;
 }</string>
         </property>
