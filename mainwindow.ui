@@ -731,27 +731,9 @@ QSlider::handle:horizontal {
     <addaction name="separator"/>
     <addaction name="actionSet_Appearance"/>
    </widget>
-   <widget class="QMenu" name="menuLive">
-    <property name="title">
-     <string>直播</string>
-    </property>
-    <addaction name="actionzhibo1"/>
-    <addaction name="actiongetlist"/>
-   </widget>
-   <widget class="QMenu" name="menuRight">
-    <property name="layoutDirection">
-     <enum>Qt::RightToLeft</enum>
-    </property>
-    <property name="title">
-     <string>右边的信息</string>
-    </property>
-    <addaction name="actionzhiboliebiao"/>
-   </widget>
    <addaction name="menuFile"/>
    <addaction name="menuImport"/>
    <addaction name="menuSettings"/>
-   <addaction name="menuLive"/>
-   <addaction name="menuRight"/>
   </widget>
   <action name="actionOpen_File">
    <property name="icon">

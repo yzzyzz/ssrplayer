@@ -6,6 +6,7 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QJsonValue>
+#include <QStatusBar>
 #include <asyncimageloader.h>
 
 MainWindow::MainWindow(QWidget* parent)
@@ -426,19 +427,23 @@ void MainWindow::setTrayIcon(const QIcon& appIcon)
     tray_icon->show();
     // set System Tray Icon Interaction
     connect(tray_icon.get(), &QSystemTrayIcon::activated, this, &MainWindow::trayIconActivated);
+    // QStatusBar* statusBar = new QStatusBar(this);
+    // setStatusBar(statusBar);
+    // // 在状态栏中显示文字
+    // statusBar->showMessage("中消息");
 }
 
 void MainWindow::setTrayIconMenu()
 {
     // init & set tray menu
     tray_menu = std::unique_ptr<QMenu>(new QMenu(this));
-    tray_menu->setWindowFlag(Qt::FramelessWindowHint);
-    tray_menu->setAttribute(Qt::WA_TranslucentBackground);
+    // tray_menu->setWindowFlag(Qt::FramelessWindowHint);
+    // tray_menu->setAttribute(Qt::WA_TranslucentBackground);
     tray_menu->addAction(play_action.get());
     tray_menu->addAction(play_next_action.get());
     tray_menu->addAction(play_prev_action.get());
     tray_menu->addAction(quit_action.get());
-    tray_menu->toNSMenu();
+    // tray_menu->toNSMenu();
     tray_icon->setContextMenu(tray_menu.get());
 }
 

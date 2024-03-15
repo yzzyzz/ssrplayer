@@ -52,7 +52,6 @@ void ManageList::importToList2(QString sData)
         QStringList list2 = list1[i].split(",");
         QListWidgetItem* item = new QListWidgetItem;
         item->setIcon(QIcon(":/icons/res/music_notec2.png"));
-        // QString Showtitle = QString::number(i + 1) + "." + list2[0];
         item->setText(QString("%1").arg(i, 3) + " " + list2[0]);
         item->setData(Qt::UserRole, list2[1]);
         item_list->addItem(item);
