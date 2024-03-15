@@ -614,6 +614,7 @@ border-width:0px;</string>
           </property>
           <property name="styleSheet">
            <string notr="true">QSlider {
+	background:transparent;
 }
 
 QSlider::groove:horizontal {
