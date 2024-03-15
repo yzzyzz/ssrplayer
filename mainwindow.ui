@@ -587,14 +587,14 @@ border-width:0px;</string>
          <widget class="QSlider" name="volumeSlider">
           <property name="minimumSize">
            <size>
-            <width>100</width>
-            <height>0</height>
+            <width>120</width>
+            <height>20</height>
            </size>
           </property>
           <property name="maximumSize">
            <size>
-            <width>100</width>
-            <height>8</height>
+            <width>120</width>
+            <height>20</height>
            </size>
           </property>
           <property name="sizeIncrement">
@@ -623,12 +623,19 @@ height: 8px;
 border-radius: 1px;
 }
 
+QSlider::add-page:horizontal {
+    background: #808080;
+    border-radius: 4px;
+}
+
+QSlider::sub-page:horizontal {
+    background: white;
+    border-radius: 4px;
+}
 QSlider::handle:horizontal {
-image: url(:/icons/res/star_shining.png);
-width: 16px;
-margin-top: -2px;
-margin-bottom: -2px;
-border-radius: 4px;
+    width: 12px;
+    background: white;
+    border-radius: 6px;
 }
 </string>
           </property>
