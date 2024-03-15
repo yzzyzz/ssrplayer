@@ -124,6 +124,7 @@ private:
     bool play_button_clicked;
     bool music_manually_stopped;
     float cached_volume;
+    bool isDefaultPic;
 
     // usesr interaction settings
     void setShortCutsForAll();
@@ -139,6 +140,7 @@ private:
     void setOrderLoopMode();
     void setSingleLoopMode();
     void setRandomLoopMode();
+    void setDefaultPic();
 
     // ui update
     void showMusicInfo(QString key, QString value);

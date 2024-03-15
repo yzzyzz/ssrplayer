@@ -50,6 +50,7 @@ MainWindow::MainWindow(QWidget* parent)
     setMusicListMenu();
     connectMusicListMenu();
     setModeButton();
+    setDefaultPic();
     // setAttribute(Qt::WA_TranslucentBackground, true);
 
     // setStyleSheet("QMainWindow::titleBar { background-color: red; }");
@@ -305,12 +306,20 @@ void MainWindow::showMusicInfo(QString key, QString value)
                 if (jsonPicRet.contains("picurl") && jsonPicRet.value("picurl").toString().length() > 6) {
                     QUrl imageUrl(jsonPicRet.value("picurl").toString());
                     imageLoader.loadImage(imageUrl);
+                } else {
+                    if (!isDefaultPic) {
+                        this->setDefaultPic();
+                    }
                 }
             })
             .get();
 
         // QString PicUrl1 =  "http://gz.999887.xyz/getmusicpic.php?title="+sAudioTitle+"&pictype=hires";
         // http://gz.999887.xyz/getmusicpic.php?title=%E9%82%93%E4%B8%BD%E5%90%9B-%E7%94%9C%E8%9C%9C%E8%9C%9C&pictype=hires
+    } else {
+        if (!isDefaultPic) {
+            this->setDefaultPic();
+        }
     }
     tray_icon->setToolTip(setTex + "...");
     ui->musicNameDisplay->setText(setTex);
@@ -484,8 +493,9 @@ void MainWindow::showPicture(QImage coverimage)
         palette.setBrush(backgroundRole(), QPixmap::fromImage(result).scaled(this->size()));
         setPalette(palette);
         ui->musicGraphics->setPixmap(QPixmap::fromImage(coverimage));
+        isDefaultPic = false;
     } else {
-        ui->musicGraphics->setPixmap(QPixmap(":icons/res/defaultcover.png"));
+        setDefaultPic();
     }
 }
 
@@ -522,4 +532,16 @@ void MainWindow::player_status_changed(AudioPlayer::States newstate)
     default:
         break;
     }
+}
+
+void MainWindow::setDefaultPic()
+{
+    QGraphicsBlurEffect* blur = new QGraphicsBlurEffect;
+    blur->setBlurRadius(50);
+    QImage result = applyEffectToImage(QImage(":icons/res/defaultcover.png"), blur);
+    QPalette palette;
+    palette.setBrush(backgroundRole(), QPixmap::fromImage(result).scaled(this->size()));
+    setPalette(palette);
+    ui->musicGraphics->setPixmap(QPixmap(":icons/res/defaultcover.png"));
+    isDefaultPic = true;
 }
