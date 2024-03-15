@@ -95,32 +95,31 @@ border-radius: 4px;
 }
 
 QListWidget {
-        border: 5px solid rgb(184, 175, 247);
         border-radius: 5px;
         border-style: solid;
-        background-color:  rgb(255, 255, 255);
+        background:transparent;
         padding: 1px;
 }
 QListWidget:item {
-        color: rgb(0, 0, 0);
-        border: 1px solid rgb(184, 175, 247);
+        color: #bdbdbe;
+        border: 0px solid;
         border-radius: 3px;
-        background-color:  rgb(255, 255, 255);
-        padding: 1px;
+        background:transparent;
+        padding: 5px;
 }
 QListWidget:item:hover {
-        color: rgb(255, 240, 79);
-        border: 1px solid rgb(184, 175, 247);
+        color: white;
+        border: 0px solid;
         border-radius: 3px;
-        background-color:  rgb(184, 175, 247);
-        padding: 1px;
+        background:transparent;
+        padding: 5px;
 }
 QListWidget:item:selected {
-        color: rgb(255, 240, 79);
-        border: 1px solid rgb(184, 175, 247);
+        color: white;
+        border: 0px solid;
         border-radius: 3px;
-        background-color:  rgb(184, 175, 247);
-        padding: 1px;
+        background:transparent;
+        padding: 5px;
 }
 
 
@@ -129,6 +128,7 @@ QScrollBar:horizontal {
     height: 10px;
     margin: 0px 10px 0px 10px;
 }
+
 QScrollBar::handle:horizontal {
     background: white;
         border: 2px solid rgb(184, 175, 247);
@@ -155,31 +155,31 @@ QScrollBar::sub-line:horizontal {
 }
 
 QScrollBar:vertical {
-    background: white;
+    background: black;
     width: 10px;
     margin: 10px 0px 10px 0px;
 }
 QScrollBar::handle:vertical {
-    background: white;
-        border: 2px solid rgb(184, 175, 247);
+    background: grey;
+        border: 0px solid;
         border-radius: 5px;
     min-width: 10px;
 }
 QScrollBar::handle:vertical:hover {
-    background: rgb(184, 175, 247);
-        border: 2px solid rgb(184, 175, 247);
+        background: white;
+        border: 0px solid rgb(184, 175, 247);
         border-radius: 5px;
-    min-height: 10px;
+        min-height: 10px;
 }
 QScrollBar::add-line:vertical {
-    background: white;
-    height: 10px;
+    background:transparent;
+    height: 5px;
     subcontrol-position: bottom;
     subcontrol-origin: margin;
 }
 QScrollBar::sub-line:vertical {
-    background: white;
-    height: 10px;
+    background:transparent;
+    height: 5px;
     subcontrol-position: top;
     subcontrol-origin: margin;
 }

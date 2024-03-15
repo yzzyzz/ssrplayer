@@ -85,6 +85,10 @@ private slots:
 
     void on_actiongetlist_triggered();
 
+    void on_volumeSlider_actionTriggered(int action);
+
+    void on_volumeSlider_valueChanged(int value);
+
 private:
     Ui::MainWindow* ui;
     std::unique_ptr<QMediaPlayer> audio_player;

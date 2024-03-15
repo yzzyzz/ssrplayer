@@ -202,9 +202,9 @@ void MainWindow::on_progressSlider_sliderMoved(int position)
 
 void MainWindow::on_volumeSlider_sliderMoved(int position)
 {
-    player.setVolume(volumeConvert(position));
-    ui->volumeDisplay->setText(QString::number(position) + "%");
-    last_position = position;
+    // player.setVolume(volumeConvert(position));
+    // ui->volumeDisplay->setText(QString::number(position) + "%");
+    // last_position = position;
 }
 
 void MainWindow::on_playButton_clicked()
@@ -236,7 +236,6 @@ void MainWindow::on_stopButton_clicked()
 void MainWindow::on_volumeButton_clicked()
 {
     volume_button_clicked = !volume_button_clicked;
-    qDebug() << "new volume_button_clicked:" << volume_button_clicked << "\n\n";
     if (volume_button_clicked) {
         cached_volume = player.volume();
         player.setVolume(0);
@@ -245,7 +244,7 @@ void MainWindow::on_volumeButton_clicked()
     } else {
         player.setVolume(cached_volume);
         ui->volumeButton->setIcon(QIcon(":/icons/res/volume_w.png"));
-        ui->volumeDisplay->setText(QString::number(static_cast<int>(cached_volume * 100)) + "%");
+        ui->volumeDisplay->setText(QString::number(static_cast<int>(cached_volume)) + "%");
     }
 }
 
@@ -582,4 +581,18 @@ void MainWindow::showPicture(QImage coverimage)
 void MainWindow::on_actiongetlist_triggered()
 {
     music_list->importLiveList();
+}
+
+void MainWindow::on_volumeSlider_actionTriggered(int action)
+{
+    qDebug() << "\n\non_volumeSlider_actionTriggered:" << action;
+    ; // on_volumeSlider_sliderMoved(action);
+}
+
+void MainWindow::on_volumeSlider_valueChanged(int value)
+{
+    qDebug() << "\n\non_volumeSlider_actionTriggered:" << value;
+    player.setVolume(volumeConvert(value));
+    ui->volumeDisplay->setText(QString::number(value) + "%");
+    last_position = value;
 }
