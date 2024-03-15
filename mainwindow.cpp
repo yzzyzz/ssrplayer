@@ -2,6 +2,7 @@
 #include "HttpClient.h"
 #include "ui_mainwindow.h"
 #include <QDebug>
+#include <QGraphicsPixmapItem>
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QJsonValue>
@@ -39,7 +40,7 @@ MainWindow::MainWindow(QWidget* parent)
     setTrayIcon(appIcon);
     setWindowIcon(appIcon);
     default_music_image = QPixmap(":icons/res/defaultcover.png");
-    this->setProperty("windowOpacity", 1.0);
+    // this->setProperty("windowOpacity", 1.0);
 
     // other ui componet settings
     ui->playButton->setEnabled(true);
@@ -49,6 +50,20 @@ MainWindow::MainWindow(QWidget* parent)
     setMusicListMenu();
     connectMusicListMenu();
     setModeButton();
+    // setAttribute(Qt::WA_TranslucentBackground, true);
+
+    // setStyleSheet("QMainWindow::titleBar { background-color: red; }");
+    //  阴影效果
+    QGraphicsDropShadowEffect* shadowEffect = new QGraphicsDropShadowEffect;
+    //  // 阴影色，透明度
+    shadowEffect->setColor(QColor(100, 100, 100));
+    shadowEffect->setBlurRadius(40); // 阴影模糊半径
+    //  shadowEffect->setOffset(10); // 阴影的偏移值
+
+    setGraphicsEffect(shadowEffect);
+    // setAttribute(Qt::WA_TranslucentBackground); // 设置背景透明
+    // setWindowOpacity(0.9);
+    // setWindowFlags(Qt::FramelessWindowHint); // 设置无边框
     // set stylesheet
     // signal&slot connecttion
     initConnect();
@@ -532,25 +547,55 @@ void MainWindow::on_actionzhibo1_triggered()
     // startPlayingLive();
 }
 
+static QImage applyEffectToImage(QImage src, QGraphicsEffect* effect, int extent = 0)
+{
+    if (src.isNull())
+        return QImage(); // No need to do anything else!
+    if (!effect)
+        return src; // No need to do anything else!
+    QGraphicsScene scene;
+    QGraphicsPixmapItem item;
+    item.setPixmap(QPixmap::fromImage(src));
+    item.setGraphicsEffect(effect);
+    scene.addItem(&item);
+    QImage res(src.size() + QSize(extent * 2, extent * 2), QImage::Format_ARGB32);
+    res.fill(Qt::transparent);
+    QPainter ptr(&res);
+    scene.render(&ptr, QRectF(), QRectF(-extent, -extent, src.width() + extent * 2, src.height() + extent * 2));
+    return res;
+}
+
 void MainWindow::showPicture(QImage coverimage)
 {
     qDebug() << "Image loaded with size:" << coverimage.size();
     if (!coverimage.isNull()) {
         ui->musicGraphics->setPixmap(QPixmap::fromImage(coverimage));
 
-        QImage blurredImage = coverimage;
+        // QImage blurredImage = coverimage;
 
-        // 在临时图片上进行模糊处理
-        blurredImage = blurredImage.scaled(blurredImage.size() / 32, Qt::KeepAspectRatio, Qt::SmoothTransformation);
-        blurredImage = blurredImage.scaled(coverimage.size(), Qt::KeepAspectRatio, Qt::SmoothTransformation);
+        QGraphicsBlurEffect* blur = new QGraphicsBlurEffect;
+        blur->setBlurRadius(10);
+        QImage result = applyEffectToImage(coverimage, blur);
 
-        // 创建一个临时图片用于模糊处理
+        //  ui->centralwidget->setPalette();
 
-        QPalette palette;
-        palette.setBrush(backgroundRole(), QPixmap::fromImage(blurredImage));
+        // setPixmap(QPixmap::fromImage(result));
+        // setMask();
 
-        setPalette(palette);
-        // setAutoFillBackground(false);
+        // // 在临时图片上进行模糊处理
+        // blurredImage = blurredImage.scaled(blurredImage.size() / 32, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+        // blurredImage = blurredImage.scaled(coverimage.size(), Qt::KeepAspectRatio, Qt::SmoothTransformation);
+
+        // // 创建一个临时图片用于模糊处理
+
+        // QPalette palette;
+        // palette.setBrush(backgroundRole(), QPixmap::fromImage(blurredImage));
+
+        // // palette.setColor(backgroundRole(), QColor(255, 255, 255, 100)); // 最后一项为透明度
+        // //  setAttribute(Qt::WA_TranslucentBackground); // 设置背景透明
+        // setAutoFillBackground(true);
+
+        // setPalette(palette);
 
         // QGraphicsBlurEffect* blurEffect = new QGraphicsBlurEffect; // 模糊效果
         // // 设置颜模糊半:%径

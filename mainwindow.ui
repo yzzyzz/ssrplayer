@@ -6,13 +6,13 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
+    <width>900</width>
     <height>600</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
-    <width>800</width>
+    <width>900</width>
     <height>600</height>
    </size>
   </property>
@@ -25,8 +25,20 @@
   <property name="windowTitle">
    <string>golo播放器</string>
   </property>
+  <property name="windowOpacity">
+   <double>1.000000000000000</double>
+  </property>
+  <property name="autoFillBackground">
+   <bool>false</bool>
+  </property>
   <property name="styleSheet">
-   <string notr="true"/>
+   <string notr="true">background-color:black;</string>
+  </property>
+  <property name="animated">
+   <bool>true</bool>
+  </property>
+  <property name="unifiedTitleAndToolBarOnMac">
+   <bool>false</bool>
   </property>
   <widget class="QWidget" name="centralwidget">
    <property name="sizePolicy">
@@ -35,8 +47,16 @@
      <verstretch>0</verstretch>
     </sizepolicy>
    </property>
+   <property name="maximumSize">
+    <size>
+     <width>900</width>
+     <height>600</height>
+    </size>
+   </property>
    <property name="styleSheet">
-    <string notr="true">background:rgba(255,255,255,0);</string>
+    <string notr="true">background-color: rgba(20,20,20,20);
+    filter: blur(60px);
+</string>
    </property>
    <layout class="QHBoxLayout" name="horizontalLayout" stretch="0,0">
     <property name="topMargin">
@@ -49,8 +69,14 @@
       </property>
       <property name="minimumSize">
        <size>
-        <width>200</width>
-        <height>600</height>
+        <width>280</width>
+        <height>550</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>280</width>
+        <height>580</height>
        </size>
       </property>
       <property name="palette">
@@ -58,10 +84,10 @@
         <active>
          <colorrole role="Button">
           <brush brushstyle="SolidPattern">
-           <color alpha="0">
-            <red>255</red>
-            <green>255</green>
-            <blue>255</blue>
+           <color alpha="20">
+            <red>20</red>
+            <green>20</green>
+            <blue>20</blue>
            </color>
           </brush>
          </colorrole>
@@ -76,10 +102,10 @@
          </colorrole>
          <colorrole role="Window">
           <brush brushstyle="SolidPattern">
-           <color alpha="0">
-            <red>255</red>
-            <green>255</green>
-            <blue>255</blue>
+           <color alpha="20">
+            <red>20</red>
+            <green>20</green>
+            <blue>20</blue>
            </color>
           </brush>
          </colorrole>
@@ -87,10 +113,10 @@
         <inactive>
          <colorrole role="Button">
           <brush brushstyle="SolidPattern">
-           <color alpha="0">
-            <red>255</red>
-            <green>255</green>
-            <blue>255</blue>
+           <color alpha="20">
+            <red>20</red>
+            <green>20</green>
+            <blue>20</blue>
            </color>
           </brush>
          </colorrole>
@@ -105,10 +131,10 @@
          </colorrole>
          <colorrole role="Window">
           <brush brushstyle="SolidPattern">
-           <color alpha="0">
-            <red>255</red>
-            <green>255</green>
-            <blue>255</blue>
+           <color alpha="20">
+            <red>20</red>
+            <green>20</green>
+            <blue>20</blue>
            </color>
           </brush>
          </colorrole>
@@ -116,10 +142,10 @@
         <disabled>
          <colorrole role="Button">
           <brush brushstyle="SolidPattern">
-           <color alpha="0">
-            <red>255</red>
-            <green>255</green>
-            <blue>255</blue>
+           <color alpha="20">
+            <red>20</red>
+            <green>20</green>
+            <blue>20</blue>
            </color>
           </brush>
          </colorrole>
@@ -134,10 +160,10 @@
          </colorrole>
          <colorrole role="Window">
           <brush brushstyle="SolidPattern">
-           <color alpha="0">
-            <red>255</red>
-            <green>255</green>
-            <blue>255</blue>
+           <color alpha="20">
+            <red>20</red>
+            <green>20</green>
+            <blue>20</blue>
            </color>
           </brush>
          </colorrole>
@@ -176,16 +202,16 @@
        <number>0</number>
       </property>
       <property name="leftMargin">
-       <number>40</number>
+       <number>0</number>
       </property>
       <property name="topMargin">
        <number>18</number>
       </property>
       <property name="rightMargin">
-       <number>40</number>
+       <number>0</number>
       </property>
       <property name="bottomMargin">
-       <number>40</number>
+       <number>0</number>
       </property>
       <item alignment="Qt::AlignHCenter">
        <widget class="QLabel" name="stationName">
@@ -202,8 +228,10 @@
          </size>
         </property>
         <property name="styleSheet">
-         <string notr="true">color:black;
-font:24px;
+         <string notr="true">font: 24px;
+color:white;
+background-color: rgab(0,0,0,0); 
+border-width:0px;
 margin:0 0 2 0;</string>
         </property>
         <property name="text">
@@ -211,24 +239,39 @@ margin:0 0 2 0;</string>
         </property>
        </widget>
       </item>
-      <item>
+      <item alignment="Qt::AlignHCenter">
        <widget class="QLabel" name="musicGraphics">
+        <property name="enabled">
+         <bool>true</bool>
+        </property>
         <property name="sizePolicy">
-         <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
+         <sizepolicy hsizetype="Fixed" vsizetype="MinimumExpanding">
           <horstretch>0</horstretch>
           <verstretch>0</verstretch>
          </sizepolicy>
         </property>
         <property name="minimumSize">
          <size>
-          <width>300</width>
-          <height>300</height>
+          <width>350</width>
+          <height>350</height>
          </size>
         </property>
         <property name="maximumSize">
          <size>
-          <width>380</width>
-          <height>380</height>
+          <width>350</width>
+          <height>350</height>
+         </size>
+        </property>
+        <property name="sizeIncrement">
+         <size>
+          <width>0</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="baseSize">
+         <size>
+          <width>250</width>
+          <height>250</height>
          </size>
         </property>
         <property name="layoutDirection">
@@ -238,7 +281,6 @@ margin:0 0 2 0;</string>
          <string notr="true">QLabel {
 	border: 2px solid  rgb(0, 0, 0);
 	border-radius: 4px;
-	margin: 10 10 10 10px;
 }</string>
         </property>
         <property name="text">
@@ -251,7 +293,10 @@ margin:0 0 2 0;</string>
          <bool>true</bool>
         </property>
         <property name="alignment">
-         <set>Qt::AlignCenter</set>
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
+        <property name="indent">
+         <number>0</number>
         </property>
        </widget>
       </item>
@@ -277,14 +322,15 @@ margin:0 0 2 0;</string>
         </property>
         <property name="font">
          <font>
-          <pointsize>20</pointsize>
+          <pointsize>-1</pointsize>
           <italic>false</italic>
-          <bold>true</bold>
+          <bold>false</bold>
          </font>
         </property>
         <property name="styleSheet">
-         <string notr="true">font: 700 20pt;
-color:black;</string>
+         <string notr="true">font: 18px;color:white;
+background-color: rgab(0,0,0,0); 
+border-width:0px;</string>
         </property>
         <property name="text">
          <string>停止播放</string>
@@ -302,21 +348,29 @@ color:black;</string>
       </item>
       <item>
        <layout class="QHBoxLayout" name="horizontalLayout_2">
+        <property name="leftMargin">
+         <number>80</number>
+        </property>
+        <property name="rightMargin">
+         <number>100</number>
+        </property>
+        <property name="bottomMargin">
+         <number>0</number>
+        </property>
         <item>
          <widget class="QPushButton" name="playButton">
           <property name="maximumSize">
            <size>
-            <width>40</width>
-            <height>40</height>
+            <width>50</width>
+            <height>50</height>
            </size>
           </property>
           <property name="cursor">
            <cursorShape>PointingHandCursor</cursorShape>
           </property>
           <property name="styleSheet">
-           <string notr="true">QPushButton {
-        background-color: rgb(146, 138, 255);
-}</string>
+           <string notr="true">border-width:0px;background-color: rgab(0,0,0,0);
+</string>
           </property>
           <property name="text">
            <string/>
@@ -327,21 +381,25 @@ color:black;</string>
           </property>
           <property name="iconSize">
            <size>
-            <width>20</width>
-            <height>20</height>
+            <width>38</width>
+            <height>38</height>
            </size>
           </property>
          </widget>
         </item>
         <item>
          <widget class="QPushButton" name="forwardButton">
+          <property name="maximumSize">
+           <size>
+            <width>50</width>
+            <height>50</height>
+           </size>
+          </property>
           <property name="cursor">
            <cursorShape>PointingHandCursor</cursorShape>
           </property>
           <property name="styleSheet">
-           <string notr="true">QPushButton {
-        background-color: rgb(146, 138, 255);
-}</string>
+           <string notr="true">border-width:0px;background-color: rgab(0,0,0,0);</string>
           </property>
           <property name="text">
            <string/>
@@ -352,21 +410,25 @@ color:black;</string>
           </property>
           <property name="iconSize">
            <size>
-            <width>20</width>
-            <height>20</height>
+            <width>38</width>
+            <height>38</height>
            </size>
           </property>
          </widget>
         </item>
         <item>
          <widget class="QPushButton" name="stopButton">
+          <property name="maximumSize">
+           <size>
+            <width>50</width>
+            <height>50</height>
+           </size>
+          </property>
           <property name="cursor">
            <cursorShape>PointingHandCursor</cursorShape>
           </property>
           <property name="styleSheet">
-           <string notr="true">QPushButton {
-        background-color: rgb(146, 138, 255);
-}</string>
+           <string notr="true">border-width:0px;background-color: rgab(0,0,0,0);</string>
           </property>
           <property name="text">
            <string/>
@@ -377,8 +439,8 @@ color:black;</string>
           </property>
           <property name="iconSize">
            <size>
-            <width>40</width>
-            <height>40</height>
+            <width>38</width>
+            <height>38</height>
            </size>
           </property>
          </widget>
@@ -388,9 +450,12 @@ color:black;</string>
           <property name="orientation">
            <enum>Qt::Horizontal</enum>
           </property>
+          <property name="sizeType">
+           <enum>QSizePolicy::Minimum</enum>
+          </property>
           <property name="sizeHint" stdset="0">
            <size>
-            <width>0</width>
+            <width>50</width>
             <height>0</height>
            </size>
           </property>
@@ -400,8 +465,8 @@ color:black;</string>
          <widget class="QPushButton" name="volumeButton">
           <property name="maximumSize">
            <size>
-            <width>30</width>
-            <height>30</height>
+            <width>50</width>
+            <height>50</height>
            </size>
           </property>
           <property name="palette">
@@ -409,27 +474,27 @@ color:black;</string>
             <active>
              <colorrole role="Button">
               <brush brushstyle="SolidPattern">
-               <color alpha="255">
-                <red>146</red>
-                <green>138</green>
+               <color alpha="25">
+                <red>255</red>
+                <green>255</green>
                 <blue>255</blue>
                </color>
               </brush>
              </colorrole>
              <colorrole role="Base">
               <brush brushstyle="SolidPattern">
-               <color alpha="255">
-                <red>146</red>
-                <green>138</green>
+               <color alpha="25">
+                <red>255</red>
+                <green>255</green>
                 <blue>255</blue>
                </color>
               </brush>
              </colorrole>
              <colorrole role="Window">
               <brush brushstyle="SolidPattern">
-               <color alpha="255">
-                <red>146</red>
-                <green>138</green>
+               <color alpha="25">
+                <red>255</red>
+                <green>255</green>
                 <blue>255</blue>
                </color>
               </brush>
@@ -438,27 +503,27 @@ color:black;</string>
             <inactive>
              <colorrole role="Button">
               <brush brushstyle="SolidPattern">
-               <color alpha="255">
-                <red>146</red>
-                <green>138</green>
+               <color alpha="25">
+                <red>255</red>
+                <green>255</green>
                 <blue>255</blue>
                </color>
               </brush>
              </colorrole>
              <colorrole role="Base">
               <brush brushstyle="SolidPattern">
-               <color alpha="255">
-                <red>146</red>
-                <green>138</green>
+               <color alpha="25">
+                <red>255</red>
+                <green>255</green>
                 <blue>255</blue>
                </color>
               </brush>
              </colorrole>
              <colorrole role="Window">
               <brush brushstyle="SolidPattern">
-               <color alpha="255">
-                <red>146</red>
-                <green>138</green>
+               <color alpha="25">
+                <red>255</red>
+                <green>255</green>
                 <blue>255</blue>
                </color>
               </brush>
@@ -467,27 +532,27 @@ color:black;</string>
             <disabled>
              <colorrole role="Button">
               <brush brushstyle="SolidPattern">
-               <color alpha="255">
-                <red>146</red>
-                <green>138</green>
+               <color alpha="25">
+                <red>255</red>
+                <green>255</green>
                 <blue>255</blue>
                </color>
               </brush>
              </colorrole>
              <colorrole role="Base">
               <brush brushstyle="SolidPattern">
-               <color alpha="255">
-                <red>146</red>
-                <green>138</green>
+               <color alpha="25">
+                <red>255</red>
+                <green>255</green>
                 <blue>255</blue>
                </color>
               </brush>
              </colorrole>
              <colorrole role="Window">
               <brush brushstyle="SolidPattern">
-               <color alpha="255">
-                <red>146</red>
-                <green>138</green>
+               <color alpha="25">
+                <red>255</red>
+                <green>255</green>
                 <blue>255</blue>
                </color>
               </brush>
@@ -499,9 +564,7 @@ color:black;</string>
            <cursorShape>PointingHandCursor</cursorShape>
           </property>
           <property name="styleSheet">
-           <string notr="true">QPushButton {
-        background-color: rgb(146, 138, 255);
-}</string>
+           <string notr="true">border-width:0px;background-color: rgab(0,0,0,0);</string>
           </property>
           <property name="text">
            <string/>
@@ -512,8 +575,8 @@ color:black;</string>
           </property>
           <property name="iconSize">
            <size>
-            <width>20</width>
-            <height>20</height>
+            <width>38</width>
+            <height>38</height>
            </size>
           </property>
           <property name="shortcut">
@@ -523,27 +586,47 @@ color:black;</string>
         </item>
         <item>
          <widget class="QSlider" name="volumeSlider">
+          <property name="minimumSize">
+           <size>
+            <width>100</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>100</width>
+            <height>8</height>
+           </size>
+          </property>
+          <property name="sizeIncrement">
+           <size>
+            <width>0</width>
+            <height>0</height>
+           </size>
+          </property>
           <property name="cursor">
            <cursorShape>ClosedHandCursor</cursorShape>
           </property>
           <property name="focusPolicy">
            <enum>Qt::NoFocus</enum>
           </property>
+          <property name="layoutDirection">
+           <enum>Qt::RightToLeft</enum>
+          </property>
           <property name="styleSheet">
            <string notr="true">QSlider {
-    height: 28px;
 }
 
 QSlider::groove:horizontal {
 border: 0px solid #bbb;
 background: white;
-height: 12px;
-border-radius: 2px;
+height: 8px;
+border-radius: 1px;
 }
 
 QSlider::handle:horizontal {
 image: url(:/icons/res/star_shining.png);
-width: 16px;
+width: 6px;
 margin-top: -2px;
 margin-bottom: -2px;
 border-radius: 4px;
@@ -572,13 +655,13 @@ border-radius: 4px;
           <property name="minimumSize">
            <size>
             <width>40</width>
-            <height>0</height>
+            <height>40</height>
            </size>
           </property>
           <property name="maximumSize">
            <size>
             <width>40</width>
-            <height>16777215</height>
+            <height>40</height>
            </size>
           </property>
           <property name="cursor">
@@ -586,6 +669,9 @@ border-radius: 4px;
           </property>
           <property name="mouseTracking">
            <bool>false</bool>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">border-width:0px;background-color: rgab(0,0,0,0);</string>
           </property>
           <property name="text">
            <string>30%</string>
@@ -606,9 +692,12 @@ border-radius: 4px;
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>800</width>
+     <width>900</width>
      <height>24</height>
     </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true"/>
    </property>
    <widget class="QMenu" name="menuFile">
     <property name="title">

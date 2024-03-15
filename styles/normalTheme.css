@@ -1,41 +1,41 @@
 QPushButton {
-        border: 5px solid #6A5ACD;
+        border: 2px solid #6A5ACD;
         border-radius: 30px;
         border-style: outset;
-        padding: 5px;
+        padding: 2px;
 }
 QPushButton:hover {
-        border: 5px solid #9932CC;
+        border: 2px solid #9932CC;
         border-radius: 30px;
         border-style: outset;
-        padding: 5px;
+        padding: 2px;
 }
 QPushButton:focus {
     outline: none;
-    border: 5px solid #4f87e1;
+    border: 2px solid #4f87e1;
     border-radius: 30px;
     border-style: outset;
-    padding: 5px;
+    padding: 2px;
 }
 
 QToolButton {
-        border: 5px solid #6A5ACD;
+        border: 2px solid #6A5ACD;
         border-radius: 30px;
         border-style: outset;
-        padding: 5px;
+        padding: 2px;
 }
 QToolButton:hover {
-        border: 5px solid #9932CC;
+        border: 2px solid #9932CC;
         border-radius: 30px;
         border-style: outset;
-        padding: 5px;
+        padding: 2px;
 }
 QToolButton:focus {
     outline: none;
-    border: 5px solid #4f87e1;
+    border: 2px solid #4f87e1;
     border-radius: 30px;
     border-style: outset;
-    padding: 5px;
+    padding: 2px;
 }
 
 
