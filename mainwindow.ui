@@ -618,18 +618,22 @@ border-width:0px;</string>
 }
 
 QSlider::groove:horizontal {
-border: 0px solid #bbb;
+border: 0px;
 background:transparent;
 height: 8px;
 border-radius: 1px;
 }
 
 QSlider::add-page:horizontal {
+border: 0px;
+
     background: #808080;
     border-radius: 4px;
 }
 
 QSlider::sub-page:horizontal {
+border: 0px;
+
     background: white;
     border-radius: 4px;
 }
