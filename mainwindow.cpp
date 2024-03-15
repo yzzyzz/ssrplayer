@@ -100,35 +100,10 @@ void MainWindow::setShortCutsForAll()
     ui->volumeButton->setShortcut(QKeySequence("Ctrl+O"));
 }
 
-void MainWindow::positionChanged(qint64 position)
-{
-    // if (audio_player->duration() != ui->progressSlider->maximum())
-    //     ui->progressSlider->setMaximum(audio_player->duration());
-
-    // ui->progressSlider->setValue(position);
-
-    // const int base {1000};
-    // auto seconds = (position / base) % 60;
-    // auto minutes = (position/(60 * base)) % 60;
-    // auto hours = (position/(3600 * base)) % 24;
-    // QTime time(hours, minutes, seconds);
-    // ui->durationDisplay->setText(time.toString());
-}
-
 // protected
 void MainWindow::closeEvent(QCloseEvent* event)
 {
     event->accept();
-    // auto ret = setYesOrNoMessageBox("Are You Sure to Exit?", "Exit");
-    // if (ret == QMessageBox::Yes)
-    // {
-    //     writeSettings();
-    //     event->accept();
-    // }
-    // else
-    // {
-    //     event->ignore();
-    // }
 }
 
 // private slot
@@ -161,11 +136,7 @@ void MainWindow::on_actionImport_Music_Resources_triggered()
 
 void MainWindow::on_actionReset_Music_List_triggered()
 {
-    auto ret = setYesOrNoMessageBox("Are You Sure To Clear All Imported Files?", "Reset");
-    if (ret == QMessageBox::Yes) {
-        play_queue->clear();
-        music_list->clear();
-    }
+    ;
 }
 
 void MainWindow::on_actionSet_Appearance_triggered()
@@ -176,13 +147,6 @@ void MainWindow::on_actionSet_Appearance_triggered()
 void MainWindow::on_progressSlider_sliderMoved(int position)
 {
     audio_player->setPosition(position);
-}
-
-void MainWindow::on_volumeSlider_sliderMoved(int position)
-{
-    // player.setVolume(volumeConvert(position));
-    // ui->volumeDisplay->setText(QString::number(position) + "%");
-    // last_position = position;
 }
 
 void MainWindow::on_playButton_clicked()
@@ -299,14 +263,7 @@ void MainWindow::addToPlayQueue()
 
 void MainWindow::removeFromPlayList()
 {
-    auto ret = setYesOrNoMessageBox("Are You Sure To Remove The Selected File(s) From Play List?"
-                                    "<br>(Local Files Won't Be Affected)"
-                                    "<br>But Play Queue Will Be Reset",
-        "Remove Music");
-    if (ret == QMessageBox::Yes) {
-        play_queue->clear();
-        music_list->removeSelectedFromList();
-    }
+    ;
 }
 
 void MainWindow::setOrderLoopMode()
@@ -496,23 +453,6 @@ float MainWindow::volumeConvert(int value)
     float converted_volume = static_cast<float>(value) / 1.30f;
     // float converted_volume = (qExp<float>(percent) - 1.0f) / (qExp<float>(1.0f) - 1.0f);
     return converted_volume;
-}
-
-int MainWindow::setYesOrNoMessageBox(QString message, QString window_title)
-{
-    QMessageBox exit_box;
-
-    exit_box.setWindowTitle(window_title);
-    QIcon window_icon = QIcon(QPixmap(":icons/res/musical_notec.png"));
-    exit_box.setWindowIcon(window_icon);
-
-    QPixmap display_icon = QPixmap(":icons/res/question_markr1.png");
-    exit_box.setIconPixmap(display_icon.scaledToHeight(40));
-
-    exit_box.setText(message);
-    exit_box.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
-    exit_box.setDefaultButton(QMessageBox::Yes);
-    return exit_box.exec();
 }
 
 static QImage applyEffectToImage(QImage src, QGraphicsEffect* effect, int extent = 0)

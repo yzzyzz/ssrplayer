@@ -59,8 +59,6 @@ private slots:
 
     void on_progressSlider_sliderMoved(int position);
 
-    void on_volumeSlider_sliderMoved(int position);
-
     void on_actionOpen_File_triggered();
 
     void on_volumeButton_clicked();
