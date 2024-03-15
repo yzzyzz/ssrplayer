@@ -79,13 +79,9 @@ private slots:
 
     void on_modeButton_clicked();
 
-    void on_actionzhibo1_triggered();
-
     void startPlayingLive(QString url);
 
     void on_actiongetlist_triggered();
-
-    void on_volumeSlider_actionTriggered(int action);
 
     void on_volumeSlider_valueChanged(int value);
 
@@ -148,6 +144,7 @@ private:
 
     // ui update
     void showMusicInfo(QString key, QString value);
+    void player_status_changed(AudioPlayer::States newstate);
     inline void updateItemSelectedUI(QListWidgetItem* cur_item, QListWidgetItem* new_item);
 
     // save/load settings

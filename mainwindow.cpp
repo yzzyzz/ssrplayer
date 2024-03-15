@@ -77,23 +77,17 @@ MainWindow::~MainWindow()
 void MainWindow::initConnect()
 {
     // connect audio_player's state with GUI
-    connect(audio_player.get(), &QMediaPlayer::playbackStateChanged, this, &MainWindow::stateChanged);
-    connect(audio_player.get(), &QMediaPlayer::positionChanged, this, &MainWindow::positionChanged);
-    // after media fully loaded, read its metadata and show infos
     connect(&imageLoader, &AsyncImageLoader::imageLoaded, this, &MainWindow::showPicture);
-    /*
-     [this](const QImage &image) {
-            qDebug() << "Image loaded with size:" << image.size();
-            //quit();
-        });
-    */
-    // Metadata
+    connect(
+        &player,
+        &AudioPlayer::stateChanged,
+        this,
+        &MainWindow::player_status_changed);
     connect(
         &player,
         &AudioPlayer::metadataChanged,
         this,
         &MainWindow::showMusicInfo);
-
     // if not using auto connection by ui designer, use below connection
     // connect(ui->playButton, &QPushButton::clicked, this, &MainWindow::on_playButton_clicked); //...
 }
@@ -119,22 +113,6 @@ void MainWindow::positionChanged(qint64 position)
     // auto hours = (position/(3600 * base)) % 24;
     // QTime time(hours, minutes, seconds);
     // ui->durationDisplay->setText(time.toString());
-}
-
-void MainWindow::stateChanged(QMediaPlayer::PlaybackState state)
-{
-    if (state == QMediaPlayer::PlayingState) {
-        ui->playButton->setEnabled(true);
-        ui->stopButton->setEnabled(true);
-    } else if (state == QMediaPlayer::PausedState) {
-        ui->playButton->setEnabled(true);
-        ui->stopButton->setEnabled(true);
-    } else if (state == QMediaPlayer::StoppedState) {
-        ui->playButton->setEnabled(true);
-        ui->stopButton->setEnabled(false);
-        if (!music_manually_stopped)
-            ui->forwardButton->click();
-    }
 }
 
 // protected
@@ -537,12 +515,6 @@ int MainWindow::setYesOrNoMessageBox(QString message, QString window_title)
     return exit_box.exec();
 }
 
-void MainWindow::on_actionzhibo1_triggered()
-{
-    ; // return;
-    // startPlayingLive();
-}
-
 static QImage applyEffectToImage(QImage src, QGraphicsEffect* effect, int extent = 0)
 {
     if (src.isNull())
@@ -565,7 +537,6 @@ void MainWindow::showPicture(QImage coverimage)
 {
     qDebug() << "Image loaded with size:" << coverimage.size();
     if (!coverimage.isNull()) {
-        // ui->musicGraphics->setPixmap(QPixmap::fromImage(coverimage));
         QGraphicsBlurEffect* blur = new QGraphicsBlurEffect;
         blur->setBlurRadius(50);
         QImage result = applyEffectToImage(coverimage, blur);
@@ -583,16 +554,32 @@ void MainWindow::on_actiongetlist_triggered()
     music_list->importLiveList();
 }
 
-void MainWindow::on_volumeSlider_actionTriggered(int action)
-{
-    qDebug() << "\n\non_volumeSlider_actionTriggered:" << action;
-    ; // on_volumeSlider_sliderMoved(action);
-}
-
 void MainWindow::on_volumeSlider_valueChanged(int value)
 {
-    qDebug() << "\n\non_volumeSlider_actionTriggered:" << value;
     player.setVolume(volumeConvert(value));
     ui->volumeDisplay->setText(QString::number(value) + "%");
     last_position = value;
+}
+
+void MainWindow::player_status_changed(AudioPlayer::States newstate)
+{
+    switch (newstate) {
+    case AudioPlayer::States::PLAYING:
+        ui->playButton->setEnabled(true);
+        ui->stopButton->setEnabled(true);
+        break;
+    case AudioPlayer::States::PAUSED:
+        ui->playButton->setEnabled(true);
+        ui->stopButton->setEnabled(true);
+        break;
+    case AudioPlayer::States::STOPPED:
+        ui->playButton->setEnabled(true);
+        ui->stopButton->setEnabled(false);
+        if (!music_manually_stopped) {
+            ui->forwardButton->click();
+        }
+        break;
+    default:
+        break;
+    }
 }
