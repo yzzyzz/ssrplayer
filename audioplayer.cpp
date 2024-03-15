@@ -91,7 +91,6 @@ double AudioPlayer::volume()
 {
     double result = 0;
     mpv_get_property(mpv, "volume", MPV_FORMAT_DOUBLE, &result);
-    qDebug() << "\n\n------------get vol ok --------- volume message:" << result << "\n\n\n";
     return result;
 }
 
@@ -102,9 +101,7 @@ AudioPlayer::States AudioPlayer::state()
 
 void AudioPlayer::setVolume(double v)
 {
-    qDebug() << "\n\n------------set obefore--------- volume message:" << v << "\n\n\n";
     mpv_set_property_async(mpv, 0, "volume", MPV_FORMAT_DOUBLE, &v);
-    qDebug() << "\n\n------------set ok--------- volume message:" << v << "\n\n\n";
 }
 
 void AudioPlayer::open(QByteArray path)
@@ -226,7 +223,6 @@ void AudioPlayer::handle_mpv_event(mpv_event* event)
             // QString metadata_str = QString::fromLatin1(
             QString metadata_str = QString::fromUtf8(
                 mpv_get_property_string(mpv, "metadata"));
-            qDebug() << "init meta change info:----fromUtf8-----" << metadata_str;
             emit metadataChanged("metadata", metadata_str);
         } else {
             qDebug() << "unhandled prop change " << name;
