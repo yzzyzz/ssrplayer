@@ -91,6 +91,7 @@ double AudioPlayer::volume()
 {
     double result = 0;
     mpv_get_property(mpv, "volume", MPV_FORMAT_DOUBLE, &result);
+    qDebug() << "\n\n------------get vol ok --------- volume message:" << result << "\n\n\n";
     return result;
 }
 
@@ -101,7 +102,9 @@ AudioPlayer::States AudioPlayer::state()
 
 void AudioPlayer::setVolume(double v)
 {
+    qDebug() << "\n\n------------set obefore--------- volume message:" << v << "\n\n\n";
     mpv_set_property_async(mpv, 0, "volume", MPV_FORMAT_DOUBLE, &v);
+    qDebug() << "\n\n------------set ok--------- volume message:" << v << "\n\n\n";
 }
 
 void AudioPlayer::open(QByteArray path)

@@ -32,7 +32,7 @@
    <bool>false</bool>
   </property>
   <property name="styleSheet">
-   <string notr="true">background-color:black;</string>
+   <string notr="true"/>
   </property>
   <property name="animated">
    <bool>true</bool>
@@ -369,8 +369,7 @@ border-width:0px;</string>
            <cursorShape>PointingHandCursor</cursorShape>
           </property>
           <property name="styleSheet">
-           <string notr="true">border-width:0px;background-color: rgab(0,0,0,0);
-</string>
+           <string notr="true">border-width:0px;background:transparent;</string>
           </property>
           <property name="text">
            <string/>
@@ -399,7 +398,7 @@ border-width:0px;</string>
            <cursorShape>PointingHandCursor</cursorShape>
           </property>
           <property name="styleSheet">
-           <string notr="true">border-width:0px;background-color: rgab(0,0,0,0);</string>
+           <string notr="true">border-width:0px;background:transparent;</string>
           </property>
           <property name="text">
            <string/>
@@ -428,7 +427,7 @@ border-width:0px;</string>
            <cursorShape>PointingHandCursor</cursorShape>
           </property>
           <property name="styleSheet">
-           <string notr="true">border-width:0px;background-color: rgab(0,0,0,0);</string>
+           <string notr="true">border-width:0px;background:transparent;</string>
           </property>
           <property name="text">
            <string/>
@@ -474,28 +473,28 @@ border-width:0px;</string>
             <active>
              <colorrole role="Button">
               <brush brushstyle="SolidPattern">
-               <color alpha="25">
-                <red>255</red>
-                <green>255</green>
-                <blue>255</blue>
+               <color alpha="0">
+                <red>0</red>
+                <green>0</green>
+                <blue>0</blue>
                </color>
               </brush>
              </colorrole>
              <colorrole role="Base">
               <brush brushstyle="SolidPattern">
-               <color alpha="25">
-                <red>255</red>
-                <green>255</green>
-                <blue>255</blue>
+               <color alpha="0">
+                <red>0</red>
+                <green>0</green>
+                <blue>0</blue>
                </color>
               </brush>
              </colorrole>
              <colorrole role="Window">
               <brush brushstyle="SolidPattern">
-               <color alpha="25">
-                <red>255</red>
-                <green>255</green>
-                <blue>255</blue>
+               <color alpha="0">
+                <red>0</red>
+                <green>0</green>
+                <blue>0</blue>
                </color>
               </brush>
              </colorrole>
@@ -503,28 +502,28 @@ border-width:0px;</string>
             <inactive>
              <colorrole role="Button">
               <brush brushstyle="SolidPattern">
-               <color alpha="25">
-                <red>255</red>
-                <green>255</green>
-                <blue>255</blue>
+               <color alpha="0">
+                <red>0</red>
+                <green>0</green>
+                <blue>0</blue>
                </color>
               </brush>
              </colorrole>
              <colorrole role="Base">
               <brush brushstyle="SolidPattern">
-               <color alpha="25">
-                <red>255</red>
-                <green>255</green>
-                <blue>255</blue>
+               <color alpha="0">
+                <red>0</red>
+                <green>0</green>
+                <blue>0</blue>
                </color>
               </brush>
              </colorrole>
              <colorrole role="Window">
               <brush brushstyle="SolidPattern">
-               <color alpha="25">
-                <red>255</red>
-                <green>255</green>
-                <blue>255</blue>
+               <color alpha="0">
+                <red>0</red>
+                <green>0</green>
+                <blue>0</blue>
                </color>
               </brush>
              </colorrole>
@@ -532,28 +531,28 @@ border-width:0px;</string>
             <disabled>
              <colorrole role="Button">
               <brush brushstyle="SolidPattern">
-               <color alpha="25">
-                <red>255</red>
-                <green>255</green>
-                <blue>255</blue>
+               <color alpha="0">
+                <red>0</red>
+                <green>0</green>
+                <blue>0</blue>
                </color>
               </brush>
              </colorrole>
              <colorrole role="Base">
               <brush brushstyle="SolidPattern">
-               <color alpha="25">
-                <red>255</red>
-                <green>255</green>
-                <blue>255</blue>
+               <color alpha="0">
+                <red>0</red>
+                <green>0</green>
+                <blue>0</blue>
                </color>
               </brush>
              </colorrole>
              <colorrole role="Window">
               <brush brushstyle="SolidPattern">
-               <color alpha="25">
-                <red>255</red>
-                <green>255</green>
-                <blue>255</blue>
+               <color alpha="0">
+                <red>0</red>
+                <green>0</green>
+                <blue>0</blue>
                </color>
               </brush>
              </colorrole>
@@ -564,7 +563,7 @@ border-width:0px;</string>
            <cursorShape>PointingHandCursor</cursorShape>
           </property>
           <property name="styleSheet">
-           <string notr="true">border-width:0px;background-color: rgab(0,0,0,0);</string>
+           <string notr="true">border-width:0px;background:transparent;</string>
           </property>
           <property name="text">
            <string/>
@@ -611,7 +610,7 @@ border-width:0px;</string>
            <enum>Qt::NoFocus</enum>
           </property>
           <property name="layoutDirection">
-           <enum>Qt::RightToLeft</enum>
+           <enum>Qt::LeftToRight</enum>
           </property>
           <property name="styleSheet">
            <string notr="true">QSlider {
@@ -619,14 +618,14 @@ border-width:0px;</string>
 
 QSlider::groove:horizontal {
 border: 0px solid #bbb;
-background: white;
+background:transparent;
 height: 8px;
 border-radius: 1px;
 }
 
 QSlider::handle:horizontal {
 image: url(:/icons/res/star_shining.png);
-width: 6px;
+width: 16px;
 margin-top: -2px;
 margin-bottom: -2px;
 border-radius: 4px;
@@ -671,7 +670,7 @@ border-radius: 4px;
            <bool>false</bool>
           </property>
           <property name="styleSheet">
-           <string notr="true">border-width:0px;background-color: rgab(0,0,0,0);</string>
+           <string notr="true">border-width:0px;background:transparent;</string>
           </property>
           <property name="text">
            <string>30%</string>

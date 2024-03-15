@@ -54,13 +54,13 @@ MainWindow::MainWindow(QWidget* parent)
 
     // setStyleSheet("QMainWindow::titleBar { background-color: red; }");
     //  阴影效果
-    QGraphicsDropShadowEffect* shadowEffect = new QGraphicsDropShadowEffect;
+    // QGraphicsDropShadowEffect* shadowEffect = new QGraphicsDropShadowEffect;
     //  // 阴影色，透明度
-    shadowEffect->setColor(QColor(100, 100, 100));
-    shadowEffect->setBlurRadius(40); // 阴影模糊半径
+    // shadowEffect->setColor(QColor(100, 100, 100));
+    // shadowEffect->setBlurRadius(40); // 阴影模糊半径
     //  shadowEffect->setOffset(10); // 阴影的偏移值
 
-    setGraphicsEffect(shadowEffect);
+    // setGraphicsEffect(shadowEffect);
     // setAttribute(Qt::WA_TranslucentBackground); // 设置背景透明
     // setWindowOpacity(0.9);
     // setWindowFlags(Qt::FramelessWindowHint); // 设置无边框
@@ -202,7 +202,7 @@ void MainWindow::on_progressSlider_sliderMoved(int position)
 
 void MainWindow::on_volumeSlider_sliderMoved(int position)
 {
-    audio_output->setVolume(volumeConvert(position));
+    player.setVolume(volumeConvert(position));
     ui->volumeDisplay->setText(QString::number(position) + "%");
     last_position = position;
 }
@@ -236,6 +236,7 @@ void MainWindow::on_stopButton_clicked()
 void MainWindow::on_volumeButton_clicked()
 {
     volume_button_clicked = !volume_button_clicked;
+    qDebug() << "new volume_button_clicked:" << volume_button_clicked << "\n\n";
     if (volume_button_clicked) {
         cached_volume = player.volume();
         player.setVolume(0);
@@ -304,6 +305,7 @@ void MainWindow::startPlayingLive(QString urlString)
         ui->playButton->click();
     ui->playButton->click();
     ui->stationName->setText(cur_station_name);
+    qDebug() << "startPlayingLive \n\n\n\nvoice numver " << player.volume();
 }
 
 inline void MainWindow::playListItem(QListWidgetItem* item)
@@ -355,13 +357,10 @@ void MainWindow::showMusicInfo(QString key, QString value)
     QJsonObject jsonMetadata = json_data.object();
 
     QString setTex = "";
-    // if(jsonMetadata.contains("icy-name")){
-    //     setTex = jsonMetadata.value("icy-name").toString();
-    // }
     if (jsonMetadata.contains("icy-title")) {
         QString sAudioTitle = jsonMetadata.value("icy-title").toString();
         setTex = sAudioTitle;
-        setTex.replace("-", "\n");
+        setTex.replace("-", "\n").replace(" ", "");
         tray_menu->setTitle(setTex);
 
         QString PicUrl1 = "http://gz.999887.xyz/getmusicpic.php?title=" + sAudioTitle + "&pictype=hires";
@@ -373,15 +372,13 @@ void MainWindow::showMusicInfo(QString key, QString value)
                     QUrl imageUrl(jsonPicRet.value("picurl").toString());
                     imageLoader.loadImage(imageUrl);
                 }
-                // importToList2(response);
             })
             .get();
 
-        //  QString PicUrl1 =  "http://gz.999887.xyz/getmusicpic.php?title="+sAudioTitle+"&pictype=hires";
-        // QString PicUrl1 = "http://gz.999887.xyz/12883434527-500.jpg";
+        // QString PicUrl1 =  "http://gz.999887.xyz/getmusicpic.php?title="+sAudioTitle+"&pictype=hires";
         // http://gz.999887.xyz/getmusicpic.php?title=%E9%82%93%E4%B8%BD%E5%90%9B-%E7%94%9C%E8%9C%9C%E8%9C%9C&pictype=hires
     }
-    tray_icon->setToolTip("Playing <" + cur_station_name + ">...");
+    tray_icon->setToolTip(setTex + "...");
     ui->musicNameDisplay->setText(setTex);
 }
 
@@ -518,9 +515,9 @@ float MainWindow::volumeConvert(int value)
     if (value < 0)
         return 0.0f;
     if (value > 100)
-        return 1.0f;
-    float percent = static_cast<float>(value) / 100.0f;
-    float converted_volume = (qExp<float>(percent) - 1.0f) / (qExp<float>(1.0f) - 1.0f);
+        return 100.0f;
+    float converted_volume = static_cast<float>(value) / 1.30f;
+    // float converted_volume = (qExp<float>(percent) - 1.0f) / (qExp<float>(1.0f) - 1.0f);
     return converted_volume;
 }
 
@@ -569,39 +566,14 @@ void MainWindow::showPicture(QImage coverimage)
 {
     qDebug() << "Image loaded with size:" << coverimage.size();
     if (!coverimage.isNull()) {
-        ui->musicGraphics->setPixmap(QPixmap::fromImage(coverimage));
-
-        // QImage blurredImage = coverimage;
-
+        // ui->musicGraphics->setPixmap(QPixmap::fromImage(coverimage));
         QGraphicsBlurEffect* blur = new QGraphicsBlurEffect;
-        blur->setBlurRadius(10);
+        blur->setBlurRadius(50);
         QImage result = applyEffectToImage(coverimage, blur);
-
-        //  ui->centralwidget->setPalette();
-
-        // setPixmap(QPixmap::fromImage(result));
-        // setMask();
-
-        // // 在临时图片上进行模糊处理
-        // blurredImage = blurredImage.scaled(blurredImage.size() / 32, Qt::KeepAspectRatio, Qt::SmoothTransformation);
-        // blurredImage = blurredImage.scaled(coverimage.size(), Qt::KeepAspectRatio, Qt::SmoothTransformation);
-
-        // // 创建一个临时图片用于模糊处理
-
-        // QPalette palette;
-        // palette.setBrush(backgroundRole(), QPixmap::fromImage(blurredImage));
-
-        // // palette.setColor(backgroundRole(), QColor(255, 255, 255, 100)); // 最后一项为透明度
-        // //  setAttribute(Qt::WA_TranslucentBackground); // 设置背景透明
-        // setAutoFillBackground(true);
-
-        // setPalette(palette);
-
-        // QGraphicsBlurEffect* blurEffect = new QGraphicsBlurEffect; // 模糊效果
-        // // 设置颜模糊半:%径
-        // blurEffect->setBlurRadius(10);
-        // ui->centralwidget->setGraphicsEffect(blurEffect);
-        //  ui->centralwidget->
+        QPalette palette;
+        palette.setBrush(backgroundRole(), QPixmap::fromImage(result).scaled(this->size()));
+        setPalette(palette);
+        ui->musicGraphics->setPixmap(QPixmap::fromImage(coverimage));
     } else {
         ui->musicGraphics->setPixmap(QPixmap(":icons/res/defaultcover.png"));
     }
