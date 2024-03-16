@@ -43,7 +43,7 @@ AudioPlayer::AudioPlayer(QObject* parent)
         */
     // Let us receive property change events with MPV_EVENT_PROPERTY_CHANGE if
     // this property changes.
-    mpv_observe_property(mpv, 0, "time-pos", MPV_FORMAT_DOUBLE);
+    // mpv_observe_property(mpv, 0, "time-pos", MPV_FORMAT_DOUBLE);
     mpv_observe_property(mpv, 0, "volume", MPV_FORMAT_DOUBLE);
     mpv_observe_property(mpv, 0, "metadata", MPV_FORMAT_NODE);
 
@@ -55,6 +55,7 @@ AudioPlayer::AudioPlayer(QObject* parent)
     mpv_set_wakeup_callback(mpv, wakeup, this);
 
     mpv_set_option_string(mpv, "vo", "null");
+    // mpv_set_option_string(mpv, "vd", "null");
 
     if (mpv_initialize(mpv) < 0)
         throw std::runtime_error("mpv failed to initialize");
@@ -223,6 +224,7 @@ void AudioPlayer::handle_mpv_event(mpv_event* event)
             // QString metadata_str = QString::fromLatin1(
             QString metadata_str = QString::fromUtf8(
                 mpv_get_property_string(mpv, "metadata"));
+            qDebug() << "\n---------------\n\n meta data: init" << metadata_str;
             emit metadataChanged("metadata", metadata_str);
         } else {
             qDebug() << "unhandled prop change " << name;
