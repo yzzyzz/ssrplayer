@@ -24,7 +24,7 @@ Copyright (C) 2018-2023  Salvo "LtWorf" Tomaselli <tiposchi@tiscali.it>
 #include <QString>
 
 #include "audioplayer.h"
-#include "mpv/qthelper.hpp"
+// #include "mpv/qthelper.hpp"
 
 static void wakeup(void* mpv)
 {
