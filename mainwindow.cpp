@@ -1,7 +1,9 @@
 #include "mainwindow.h"
 #include "HttpClient.h"
 #include "ui_mainwindow.h"
+#include <QActionGroup>
 #include <QDebug>
+#include <QFont>
 #include <QGraphicsPixmapItem>
 #include <QJsonDocument>
 #include <QJsonObject>
@@ -19,13 +21,16 @@ MainWindow::MainWindow(QWidget* parent)
 {
     ui->setupUi(this);
     // init widgetlist first since we need to read settings
-    music_list = std::unique_ptr<ManageList>(new ManageList(ui->musicList));
+    //  music_list = std::unique_ptr<ManageList>(new ManageList(ui->musicList));
+
+    tree_play_list = std::unique_ptr<ManageTreeList>(new ManageTreeList(ui->treeListView));
+
     // load settings
     // you should read settings after ui is set up
     // since you may want to initialize some components in ui
     readSettings();
     // player initialization
-    play_queue = std::unique_ptr<PlayQueue>(new PlayQueue(ui->musicList));
+    // play_queue = std::unique_ptr<PlayQueue>(new PlayQueue(ui->musicList));
     // play_obj =
     player.setVolume(50.0);
     // set key shortcuts
@@ -46,11 +51,6 @@ MainWindow::MainWindow(QWidget* parent)
     // other ui componet settings
     ui->playButton->setEnabled(true);
     ui->stopButton->setEnabled(false);
-    // ui->musicGraphics->setPixmap(QPixmap(":icons/res/defaultcover.png"));
-
-    setMusicListMenu();
-    connectMusicListMenu();
-    setModeButton();
     setDefaultPic();
     // setAttribute(Qt::WA_TranslucentBackground, true);
 
@@ -90,6 +90,8 @@ void MainWindow::initConnect()
         &AudioPlayer::metadataChanged,
         this,
         &MainWindow::showMusicInfo);
+    connect(tree_play_list.get(), &ManageTreeList::updateUiListDone, this, &MainWindow::setTrayIconMenu);
+
     // if not using auto connection by ui designer, use below connection
     // connect(ui->playButton, &QPushButton::clicked, this, &MainWindow::on_playButton_clicked); //...
 }
@@ -131,24 +133,13 @@ void MainWindow::on_actionImport_Music_Resources_triggered()
     QString import_dir = QFileDialog::getExistingDirectory(this, prompt,
         default_import_dir, QFileDialog::DontUseNativeDialog);
     QDir dir(import_dir);
-
-    music_list->importToList(dir, ".*.(flac|mp3|wav|m4a)");
+    // music_list->importToList(dir, ".*.(flac|mp3|wav|m4a)");
     default_import_dir = import_dir;
-}
-
-void MainWindow::on_actionReset_Music_List_triggered()
-{
-    ;
 }
 
 void MainWindow::on_actionSet_Appearance_triggered()
 {
     this->setProperty("windowOpacity", 1.0);
-}
-
-void MainWindow::on_progressSlider_sliderMoved(int position)
-{
-    audio_player->setPosition(position);
 }
 
 void MainWindow::on_playButton_clicked()
@@ -192,48 +183,48 @@ void MainWindow::on_volumeButton_clicked()
     }
 }
 
-void MainWindow::on_musicList_itemDoubleClicked(QListWidgetItem* item)
-{
-    int new_item_row = music_list->getRow(item);
-    play_queue->updatePlayingQueue(new_item_row);
-    play_queue->setCurrent_item_row(new_item_row);
+// void MainWindow::on_musicList_itemDoubleClicked(QListWidgetItem* item)
+// {
+//     int new_item_row = music_list->getRow(item);
+//     play_queue->updatePlayingQueue(new_item_row);
+//     play_queue->setCurrent_item_row(new_item_row);
 
-    auto cur_play_mode = play_queue->getPlayMode();
-    play_queue->setPlayMode(PQ::PlayMode::Order);
-    ui->forwardButton->click();
-    play_queue->setPlayMode(cur_play_mode);
-}
+//     auto cur_play_mode = play_queue->getPlayMode();
+//     play_queue->setPlayMode(PQ::PlayMode::Order);
+//     ui->forwardButton->click();
+//     play_queue->setPlayMode(cur_play_mode);
+// }
 
-void MainWindow::on_forwardButton_clicked()
-{
-    auto* current_item = play_queue->current();
-    auto* next_item = play_queue->next();
-    if (!next_item || !current_item)
-        return;
-    playListItem(next_item);
-    music_list->updateUIonItemChange(current_item, next_item);
-}
+// void MainWindow::on_forwardButton_clicked()
+// {
+//     auto* current_item = play_queue->current();
+//     auto* next_item = play_queue->next();
+//     if (!next_item || !current_item)
+//         return;
+//     playListItem(next_item);
+//     music_list->updateUIonItemChange(current_item, next_item);
+// }
 
-void MainWindow::on_backwardButton_clicked()
-{
-    auto* current_item = play_queue->current();
-    auto* pre_item = play_queue->previous();
-    if (!pre_item || !current_item)
-        return;
-    playListItem(pre_item);
-    music_list->updateUIonItemChange(current_item, pre_item);
-}
+// void MainWindow::on_backwardButton_clicked()
+// {
+//     auto* current_item = play_queue->current();
+//     auto* pre_item = play_queue->previous();
+//     if (!pre_item || !current_item)
+//         return;
+//     playListItem(pre_item);
+//     music_list->updateUIonItemChange(current_item, pre_item);
+// }
 
-void MainWindow::on_modeButton_clicked()
-{
-    // ui->modeButton->showMenu();
-}
+// void MainWindow::on_modeButton_clicked()
+// {
+//     // ui->modeButton->showMenu();
+// }
 
 // play control
 void MainWindow::startPlayingNew(QFileInfo file_info)
 { // do not modify this function, it's under inspection
     ui->stopButton->click();
-    audio_player->setSource(QUrl::fromLocalFile(file_info.absoluteFilePath()));
+    ; // audio_player->setSource(QUrl::fromLocalFile(file_info.absoluteFilePath()));
     if (play_button_clicked)
         ui->playButton->click();
     ui->playButton->click();
@@ -241,21 +232,15 @@ void MainWindow::startPlayingNew(QFileInfo file_info)
 }
 
 void MainWindow::startPlayingLive(QString urlString)
-{ // do not modify this function, it's under inspection
+{
+    // do not modify this function, it's under inspection
     ui->stopButton->click();
     player.open(urlString.toUtf8());
     if (play_button_clicked)
         ui->playButton->click();
     ui->playButton->click();
     ui->stationName->setText(cur_station_name);
-    qDebug() << "startPlayingLive \n\n\n\nvoice numver " << player.volume();
-}
-
-inline void MainWindow::playListItem(QListWidgetItem* item)
-{
-    QString file_path = item->data(Qt::UserRole).toString();
-    cur_station_name = item->text();
-    startPlayingLive(file_path);
+    // qDebug() << "startPlayingLive \n\n\n\nvoice numver " << player.volume();
 }
 
 void MainWindow::addToPlayQueue()
@@ -314,7 +299,6 @@ void MainWindow::showMusicInfo(QString key, QString value)
                 }
             })
             .get();
-
         // QString PicUrl1 =  "http://gz.999887.xyz/getmusicpic.php?title="+sAudioTitle+"&pictype=hires";
         // http://gz.999887.xyz/getmusicpic.php?title=%E9%82%93%E4%B8%BD%E5%90%9B-%E7%94%9C%E8%9C%9C%E8%9C%9C&pictype=hires
     } else {
@@ -338,7 +322,8 @@ void MainWindow::writeSettings()
 
 void MainWindow::readSettings()
 {
-    music_list->importLiveList();
+    // music_list->importLiveList();
+    tree_play_list->importToList("");
     // QSettings settings;
     // default_file_dir = settings.value("file/default_dir", "").toString();
     // default_import_dir = settings.value("file/default_import_dir", default_file_dir).toString();
@@ -361,88 +346,45 @@ void MainWindow::initActions()
 
     play_next_action = std::unique_ptr<QAction>(new QAction("&Play Next", this));
     play_next_action->setIcon(QIcon(":icons/res/next.png"));
-    connect(play_next_action.get(), &QAction::triggered, this, &MainWindow::on_forwardButton_clicked);
-
-    play_prev_action = std::unique_ptr<QAction>(new QAction("&Play Last", this));
-    play_prev_action->setIcon(QIcon(":icons/res/back.png"));
-    connect(play_prev_action.get(), &QAction::triggered, this, &MainWindow::on_backwardButton_clicked);
+    connect(play_next_action.get(), &QAction::triggered, this, &MainWindow::on_playButton_clicked);
 
     play_action = std::unique_ptr<QAction>(new QAction(("&Play"), this));
     play_action->setIcon(QIcon(":icons/res/play.png"));
     connect(play_action.get(), &QAction::triggered, this, &MainWindow::on_playButton_clicked);
-
-    order_loop_action = std::unique_ptr<QAction>(new QAction(("&Order Loop"), this));
-    order_loop_action->setIcon(QIcon(":icons/res/loopmodec.png"));
-    connect(order_loop_action.get(), &QAction::triggered, this, &MainWindow::setOrderLoopMode);
-
-    single_loop_action = std::unique_ptr<QAction>(new QAction(("&Repeat Once"), this));
-    single_loop_action->setIcon(QIcon(":icons/res/loopb.png"));
-    connect(single_loop_action.get(), &QAction::triggered, this, &MainWindow::setSingleLoopMode);
-
-    random_loop_action = std::unique_ptr<QAction>(new QAction(("&Shuffle"), this));
-    random_loop_action->setIcon(QIcon(":icons/res/shuffle.png"));
-    connect(random_loop_action.get(), &QAction::triggered, this, &MainWindow::setRandomLoopMode);
-}
-
-void MainWindow::setModeButton()
-{
-    mode_menu = std::unique_ptr<QMenu>(new QMenu(this));
-    mode_menu->setWindowFlag(Qt::FramelessWindowHint);
-    mode_menu->setAttribute(Qt::WA_TranslucentBackground);
-    mode_menu->addAction(order_loop_action.get());
-    mode_menu->addAction(single_loop_action.get());
-    mode_menu->addAction(random_loop_action.get());
-    // ui->modeButton->setMenu(mode_menu.get());
-}
-
-void MainWindow::setMusicListMenu()
-{
-    music_list_menu = std::unique_ptr<QMenu>(new QMenu(this));
-    music_list_menu->setWindowFlag(Qt::FramelessWindowHint);
-    music_list_menu->setAttribute(Qt::WA_TranslucentBackground);
-    music_list_menu->addAction(add_to_queue_action.get());
-    music_list_menu->addAction(remove_from_list_action.get());
-}
-
-void MainWindow::connectMusicListMenu()
-{
-    music_list->getItem_list()->setContextMenuPolicy(Qt::CustomContextMenu);
-    connect(music_list->getItem_list(), &QWidget::customContextMenuRequested,
-        this, &MainWindow::showMusicListMenu);
-}
-
-void MainWindow::showMusicListMenu(const QPoint& pos)
-{
-    // get global position
-    QPoint global_pos = music_list->getItem_list()->mapToGlobal(pos);
-    music_list_menu->exec(global_pos);
 }
 
 void MainWindow::setTrayIcon(const QIcon& appIcon)
 {
     tray_icon = std::unique_ptr<QSystemTrayIcon>(new QSystemTrayIcon(this));
     tray_icon->setIcon(appIcon);
+
     tray_icon->setToolTip("Not Playing Now");
-    setTrayIconMenu();
+    // setTrayIconMenu();
     tray_icon->show();
     // set System Tray Icon Interaction
     connect(tray_icon.get(), &QSystemTrayIcon::activated, this, &MainWindow::trayIconActivated);
-    // QStatusBar* statusBar = new QStatusBar(this);
-    // setStatusBar(statusBar);
-    // // 在状态栏中显示文字
-    // statusBar->showMessage("中消息");
 }
 
-void MainWindow::setTrayIconMenu()
+void MainWindow::setTrayIconMenu(QList<QStringList> listdata)
 {
-    // init & set tray menu
+
+    QActionGroup* actionGroup = new QActionGroup(this);
+
     tray_menu = std::unique_ptr<QMenu>(new QMenu(this));
-    // tray_menu->setWindowFlag(Qt::FramelessWindowHint);
-    // tray_menu->setAttribute(Qt::WA_TranslucentBackground);
-    tray_menu->addAction(play_action.get());
-    tray_menu->addAction(play_next_action.get());
-    tray_menu->addAction(play_prev_action.get());
-    tray_menu->addAction(quit_action.get());
+    // QFont font = tray_menu->font();
+    // font.setPointSize(38);
+    // tray_menu->setFont(font);
+
+    for (int i = 0; i < listdata.size(); i++) {
+        QList tmpDataItem = listdata[i];
+        QAction* actiontmp = new QAction(tmpDataItem[0], this);
+        actiontmp->setCheckable(true);
+        // actiontmp->setFont(QFont("Arial", 22));
+        actiontmp->setData(tmpDataItem[1]);
+        actionGroup->addAction(actiontmp);
+    }
+    connect(actionGroup, &QActionGroup::triggered, this, &MainWindow::actionTrayGroupTriggered);
+    tray_menu->addActions(actionGroup->actions());
     // tray_menu->toNSMenu();
     tray_icon->setContextMenu(tray_menu.get());
 }
@@ -464,7 +406,7 @@ float MainWindow::volumeConvert(int value)
         return 0.0f;
     if (value > 100)
         return 100.0f;
-    float converted_volume = static_cast<float>(value) / 1.30f;
+    float converted_volume = static_cast<float>(value) / 1.20f;
     // float converted_volume = (qExp<float>(percent) - 1.0f) / (qExp<float>(1.0f) - 1.0f);
     return converted_volume;
 }
@@ -491,22 +433,21 @@ void MainWindow::showPicture(QImage coverimage)
 {
     qDebug() << "Image loaded with size:" << coverimage.size();
     if (!coverimage.isNull()) {
+        // 设置背景框
         QGraphicsBlurEffect* blur = new QGraphicsBlurEffect;
         blur->setBlurRadius(50);
         QImage result = applyEffectToImage(coverimage, blur);
         QPalette palette;
         palette.setBrush(backgroundRole(), QPixmap::fromImage(result).scaled(this->size()));
         setPalette(palette);
-        ui->musicGraphics->setPixmap(QPixmap::fromImage(coverimage));
+        // 设置图片框
+        QPixmap pixmap;
+        pixmap.convertFromImage(coverimage);
+        ui->musicGraphics->setPixmap(pixmap.scaled(ui->musicGraphics->size(), Qt::KeepAspectRatioByExpanding, Qt::SmoothTransformation));
         isDefaultPic = false;
     } else {
         setDefaultPic();
     }
-}
-
-void MainWindow::on_actiongetlist_triggered()
-{
-    music_list->importLiveList();
 }
 
 void MainWindow::on_volumeSlider_valueChanged(int value)
@@ -549,4 +490,28 @@ void MainWindow::setDefaultPic()
     setPalette(palette);
     ui->musicGraphics->setPixmap(QPixmap(":icons/res/defaultcover.png"));
     isDefaultPic = true;
+}
+
+void MainWindow::on_treeListView_clicked(const QModelIndex& index)
+{
+    if (index.parent().isValid()) {
+        QString file_path = index.data(Qt::UserRole).toString();
+        cur_station_name = index.data(Qt::DisplayRole).toString();
+        startPlayingLive(file_path);
+    } else {
+        qDebug() << " no parent";
+        tree_play_list->switchExpand(index);
+    }
+}
+
+void MainWindow::on_treeListView_doubleClicked(const QModelIndex& index)
+{
+    on_treeListView_clicked(index);
+}
+
+void MainWindow::actionTrayGroupTriggered(QAction* action)
+{
+    QString file_path = action->data().toString();
+    cur_station_name = action->text();
+    startPlayingLive(file_path);
 }

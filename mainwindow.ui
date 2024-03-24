@@ -19,7 +19,7 @@
   <property name="maximumSize">
    <size>
     <width>900</width>
-    <height>600</height>
+    <height>604</height>
    </size>
   </property>
   <property name="windowTitle">
@@ -47,152 +47,47 @@
      <verstretch>0</verstretch>
     </sizepolicy>
    </property>
+   <property name="minimumSize">
+    <size>
+     <width>900</width>
+     <height>588</height>
+    </size>
+   </property>
    <property name="maximumSize">
     <size>
      <width>900</width>
-     <height>600</height>
+     <height>588</height>
     </size>
    </property>
    <property name="styleSheet">
-    <string notr="true">background-color: rgba(20,20,20,20);
-    filter: blur(60px);
-</string>
+    <string notr="true">background-color: transparent;</string>
    </property>
    <layout class="QHBoxLayout" name="horizontalLayout" stretch="0,0">
     <property name="topMargin">
      <number>10</number>
     </property>
     <item>
-     <widget class="QListWidget" name="musicList">
-      <property name="enabled">
-       <bool>true</bool>
-      </property>
+     <widget class="QTreeView" name="treeListView">
       <property name="minimumSize">
        <size>
-        <width>280</width>
-        <height>550</height>
+        <width>250</width>
+        <height>588</height>
        </size>
       </property>
       <property name="maximumSize">
        <size>
-        <width>280</width>
-        <height>580</height>
+        <width>250</width>
+        <height>588</height>
        </size>
       </property>
-      <property name="palette">
-       <palette>
-        <active>
-         <colorrole role="Button">
-          <brush brushstyle="SolidPattern">
-           <color alpha="20">
-            <red>20</red>
-            <green>20</green>
-            <blue>20</blue>
-           </color>
-          </brush>
-         </colorrole>
-         <colorrole role="Base">
-          <brush brushstyle="NoBrush">
-           <color alpha="255">
-            <red>0</red>
-            <green>0</green>
-            <blue>0</blue>
-           </color>
-          </brush>
-         </colorrole>
-         <colorrole role="Window">
-          <brush brushstyle="SolidPattern">
-           <color alpha="20">
-            <red>20</red>
-            <green>20</green>
-            <blue>20</blue>
-           </color>
-          </brush>
-         </colorrole>
-        </active>
-        <inactive>
-         <colorrole role="Button">
-          <brush brushstyle="SolidPattern">
-           <color alpha="20">
-            <red>20</red>
-            <green>20</green>
-            <blue>20</blue>
-           </color>
-          </brush>
-         </colorrole>
-         <colorrole role="Base">
-          <brush brushstyle="NoBrush">
-           <color alpha="255">
-            <red>0</red>
-            <green>0</green>
-            <blue>0</blue>
-           </color>
-          </brush>
-         </colorrole>
-         <colorrole role="Window">
-          <brush brushstyle="SolidPattern">
-           <color alpha="20">
-            <red>20</red>
-            <green>20</green>
-            <blue>20</blue>
-           </color>
-          </brush>
-         </colorrole>
-        </inactive>
-        <disabled>
-         <colorrole role="Button">
-          <brush brushstyle="SolidPattern">
-           <color alpha="20">
-            <red>20</red>
-            <green>20</green>
-            <blue>20</blue>
-           </color>
-          </brush>
-         </colorrole>
-         <colorrole role="Base">
-          <brush brushstyle="NoBrush">
-           <color alpha="255">
-            <red>0</red>
-            <green>0</green>
-            <blue>0</blue>
-           </color>
-          </brush>
-         </colorrole>
-         <colorrole role="Window">
-          <brush brushstyle="SolidPattern">
-           <color alpha="20">
-            <red>20</red>
-            <green>20</green>
-            <blue>20</blue>
-           </color>
-          </brush>
-         </colorrole>
-        </disabled>
-       </palette>
-      </property>
-      <property name="focusPolicy">
-       <enum>Qt::NoFocus</enum>
+      <property name="baseSize">
+       <size>
+        <width>200</width>
+        <height>600</height>
+       </size>
       </property>
       <property name="styleSheet">
-       <string notr="true"/>
-      </property>
-      <property name="horizontalScrollBarPolicy">
-       <enum>Qt::ScrollBarAlwaysOff</enum>
-      </property>
-      <property name="autoScroll">
-       <bool>true</bool>
-      </property>
-      <property name="autoScrollMargin">
-       <number>16</number>
-      </property>
-      <property name="editTriggers">
-       <set>QAbstractItemView::DoubleClicked|QAbstractItemView::EditKeyPressed</set>
-      </property>
-      <property name="selectionMode">
-       <enum>QAbstractItemView::ExtendedSelection</enum>
-      </property>
-      <property name="sortingEnabled">
-       <bool>false</bool>
+       <string notr="true">background-color: transparent;</string>
       </property>
      </widget>
     </item>

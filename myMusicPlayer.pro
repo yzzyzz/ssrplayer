@@ -1,4 +1,5 @@
-QT += core gui multimedia network
+QT += core gui network
+
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -6,12 +7,19 @@ CONFIG += c++17
 CONFIG -= debug_and_release debug_and_release_target
 
 
-LIBS += -L/opt/homebrew/Cellar/taglib/1.13.1/lib -ltag -lz
-INCLUDEPATH += /opt/homebrew/Cellar/taglib/1.13.1/include
+macx {
+
+LIBS += $(shell pkg-config --libs mpv taglib)
+INCLUDEPATH +=  $(shell pkg-config --cflags mpv taglib
+
+# LIBS += -L/opt/homebrew/Cellar/taglib/1.13.1/lib -ltag -lz
+# INCLUDEPATH += /opt/homebrew/Cellar/taglib/1.13.1/include
 
 
-INCLUDEPATH += /opt/homebrew/Cellar/mpv/0.37.0_1/include
-LIBS += -L/opt/homebrew/Cellar/mpv/0.37.0_1/lib -lmpv
+# INCLUDEPATH += /opt/homebrew/Cellar/mpv/0.37.0_3/include
+# LIBS += -L/opt/homebrew/Cellar/mpv/0.37.0_3/lib -lmpv
+
+}
 
 
 # You can make your code fail to compile if it uses deprecated APIs.
@@ -22,8 +30,8 @@ SOURCES += \
     HttpClient.cpp \
     main.cpp \
     mainwindow.cpp \
-    managelist.cpp \
     audioplayer.cpp \
+    managetreelist.cpp \
     metadata.cpp \
     asyncimageloader.cpp \
     playqueue.cpp
@@ -32,8 +40,8 @@ SOURCES += \
 HEADERS += \
     HttpClient.h \
     mainwindow.h \
-    managelist.h \
     audioplayer.h \
+    managetreelist.h \
     metadata.h \
     asyncimageloader.h \
     playqueue.h
@@ -51,3 +59,6 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 RESOURCES += \
     icons.qrc \
     styles.qrc
+
+
+
