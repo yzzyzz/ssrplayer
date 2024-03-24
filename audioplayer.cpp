@@ -22,6 +22,7 @@ Copyright (C) 2018-2023  Salvo "LtWorf" Tomaselli <tiposchi@tiscali.it>
 #include <QJsonObject>
 #include <QJsonValue>
 #include <QString>
+#include <clocale>
 
 #include "audioplayer.h"
 // #include "mpv/qthelper.hpp"
@@ -35,7 +36,7 @@ static void wakeup(void* mpv)
 AudioPlayer::AudioPlayer(QObject* parent)
     : QObject(parent)
 {
-    // std::setlocale(LC_NUMERIC, "C");
+    std::setlocale(LC_NUMERIC, "C");
 
     mpv = mpv_create();
     /*if (!mpv) TODO

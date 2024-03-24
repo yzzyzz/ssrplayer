@@ -6,8 +6,6 @@
 #include "managelist.h"
 #include "playqueue.h"
 #include <QApplication>
-#include <QAudio>
-#include <QAudioOutput>
 #include <QCloseEvent>
 #include <QCoreApplication>
 #include <QDebug>
@@ -20,8 +18,6 @@
 #include <QInputDialog>
 #include <QListWidgetItem>
 #include <QMainWindow>
-#include <QMediaMetaData>
-#include <QMediaPlayer>
 #include <QMessageBox>
 #include <QPainter>
 #include <QPixmap>
@@ -44,7 +40,6 @@ class MainWindow : public QMainWindow {
 public:
     MainWindow(QWidget* parent = nullptr);
     ~MainWindow();
-    void stateChanged(QMediaPlayer::PlaybackState state);
     void positionChanged(qint64 position);
     void showPicture(QImage coverimage);
 
@@ -85,11 +80,9 @@ private slots:
 
 private:
     Ui::MainWindow* ui;
-    std::unique_ptr<QMediaPlayer> audio_player;
     AudioPlayer player;
     AsyncImageLoader imageLoader;
 
-    std::unique_ptr<QAudioOutput> audio_output;
     std::unique_ptr<PlayQueue> play_queue;
     std::unique_ptr<ManageList> music_list;
     // maybe add a favorite list
