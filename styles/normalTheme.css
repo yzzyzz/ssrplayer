@@ -94,35 +94,6 @@ border: 1px solid #aaa;
 border-radius: 4px;
 }
 
-QListWidget {
-        font-size: 16px;
-        border-radius: 5px;
-        border-style: solid;
-        background:transparent;
-        padding: 1px;
-}
-QListWidget:item {
-        color: #bdbdbe;
-        border: 0px solid;
-        border-radius: 3px;
-        background:transparent;
-        padding: 5px;
-}
-QListWidget:item:hover {
-        color: white;
-        border: 0px solid;
-        border-radius: 3px;
-        background:transparent;
-        padding: 5px;
-}
-QListWidget:item:selected {
-        color: white;
-        border: 0px solid;
-        border-radius: 3px;
-        background:transparent;
-        padding: 5px;
-}
-
 
 QScrollBar:horizontal {
     background: white;
@@ -204,3 +175,36 @@ QToolButton::menu-indicator {
 }
 
 
+
+/*设置 QTreeView 的背景色和文本颜色 */
+QTreeView {
+    color: #bdbdbe;
+    font-size: 16px;
+    border-style: solid;
+    background:transparent;
+    padding: 1px;
+}
+
+/* 设置 QTreeView 中的每个项的背景色和边框样式 */
+QTreeView::item {
+    color: #bdbdbe;
+    border: 0px solid;
+    background:transparent;
+    padding: 5px;
+}
+
+/* 设置 QTreeView 中被选中项的背景色 */
+QTreeView::item:selected {
+    color: white;
+    border: 0px solid;
+    background:#666666;
+    padding: 5px;
+}
+
+/* 设置鼠标悬停时的样式 */
+QTreeView::item:hover {
+    color: white;
+    border: 0px solid;
+    background:#666666;
+    padding: 5px;
+}

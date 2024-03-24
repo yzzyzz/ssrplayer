@@ -22,8 +22,8 @@ SOURCES += \
     HttpClient.cpp \
     main.cpp \
     mainwindow.cpp \
-    managelist.cpp \
     audioplayer.cpp \
+    managetreelist.cpp \
     metadata.cpp \
     asyncimageloader.cpp \
     playqueue.cpp
@@ -32,8 +32,8 @@ SOURCES += \
 HEADERS += \
     HttpClient.h \
     mainwindow.h \
-    managelist.h \
     audioplayer.h \
+    managetreelist.h \
     metadata.h \
     asyncimageloader.h \
     playqueue.h

@@ -4,6 +4,7 @@
 #include "asyncimageloader.h"
 #include "audioplayer.h"
 #include "managelist.h"
+#include "managetreelist.h"
 #include "playqueue.h"
 #include <QApplication>
 #include <QCloseEvent>
@@ -25,6 +26,7 @@
 #include <QShortcut>
 #include <QSystemTrayIcon>
 #include <QTime>
+#include <QTreeView>
 #include <QtMath>
 #include <memory>
 
@@ -52,7 +54,7 @@ private slots:
 
     void on_stopButton_clicked();
 
-    void on_progressSlider_sliderMoved(int position);
+    // void on_progressSlider_sliderMoved(int position);
 
     void on_actionOpen_File_triggered();
 
@@ -62,21 +64,19 @@ private slots:
 
     void on_actionSet_Appearance_triggered();
 
-    void on_musicList_itemDoubleClicked(QListWidgetItem* item);
+    //   void on_forwardButton_clicked();
 
-    void on_forwardButton_clicked();
+    // void on_backwardButton_clicked();
 
-    void on_backwardButton_clicked();
-
-    void on_actionReset_Music_List_triggered();
-
-    void on_modeButton_clicked();
+    //  void on_modeButton_clicked();
 
     void startPlayingLive(QString url);
 
-    void on_actiongetlist_triggered();
-
     void on_volumeSlider_valueChanged(int value);
+
+    void on_treeListView_clicked(const QModelIndex& index);
+
+    void on_treeListView_doubleClicked(const QModelIndex& index);
 
 private:
     Ui::MainWindow* ui;
@@ -84,7 +84,11 @@ private:
     AsyncImageLoader imageLoader;
 
     std::unique_ptr<PlayQueue> play_queue;
+
     std::unique_ptr<ManageList> music_list;
+
+    std::unique_ptr<ManageTreeList> tree_play_list;
+
     // maybe add a favorite list
     std::unique_ptr<QSystemTrayIcon> tray_icon;
 
@@ -152,7 +156,6 @@ private:
 
     // manage context Menu
     void setMusicListMenu();
-    void connectMusicListMenu();
     void showMusicListMenu(const QPoint& pos);
 
     void setTrayIcon(const QIcon& appIcon);
