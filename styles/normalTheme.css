@@ -183,6 +183,7 @@ QTreeView {
     border-style: solid;
     background:transparent;
     padding: 1px;
+    show-decoration-selected: 0;
 }
 
 /* 设置 QTreeView 中的每个项的背景色和边框样式 */

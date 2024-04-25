@@ -100,7 +100,7 @@
        <number>0</number>
       </property>
       <property name="topMargin">
-       <number>18</number>
+       <number>12</number>
       </property>
       <property name="rightMargin">
        <number>0</number>
@@ -108,7 +108,7 @@
       <property name="bottomMargin">
        <number>0</number>
       </property>
-      <item alignment="Qt::AlignHCenter">
+      <item alignment="Qt::AlignmentFlag::AlignHCenter">
        <widget class="QLabel" name="stationName">
         <property name="maximumSize">
          <size>
@@ -134,7 +134,7 @@ margin:0 0 2 0;</string>
         </property>
        </widget>
       </item>
-      <item alignment="Qt::AlignHCenter">
+      <item alignment="Qt::AlignmentFlag::AlignHCenter">
        <widget class="QLabel" name="musicGraphics">
         <property name="enabled">
          <bool>true</bool>
@@ -170,7 +170,7 @@ margin:0 0 2 0;</string>
          </size>
         </property>
         <property name="layoutDirection">
-         <enum>Qt::LeftToRight</enum>
+         <enum>Qt::LayoutDirection::LeftToRight</enum>
         </property>
         <property name="styleSheet">
          <string notr="true">QLabel {
@@ -188,7 +188,7 @@ margin:0 0 2 0;</string>
          <bool>true</bool>
         </property>
         <property name="alignment">
-         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+         <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
         </property>
         <property name="indent">
          <number>0</number>
@@ -231,13 +231,13 @@ border-width:0px;</string>
          <string>停止播放</string>
         </property>
         <property name="textFormat">
-         <enum>Qt::AutoText</enum>
+         <enum>Qt::TextFormat::AutoText</enum>
         </property>
         <property name="scaledContents">
          <bool>true</bool>
         </property>
         <property name="alignment">
-         <set>Qt::AlignCenter</set>
+         <set>Qt::AlignmentFlag::AlignCenter</set>
         </property>
        </widget>
       </item>
@@ -247,10 +247,10 @@ border-width:0px;</string>
          <number>80</number>
         </property>
         <property name="rightMargin">
-         <number>100</number>
+         <number>70</number>
         </property>
         <property name="bottomMargin">
-         <number>0</number>
+         <number>40</number>
         </property>
         <item>
          <widget class="QPushButton" name="playButton">
@@ -342,10 +342,10 @@ border-width:0px;</string>
         <item>
          <spacer name="horizontalSpacer">
           <property name="orientation">
-           <enum>Qt::Horizontal</enum>
+           <enum>Qt::Orientation::Horizontal</enum>
           </property>
           <property name="sizeType">
-           <enum>QSizePolicy::Minimum</enum>
+           <enum>QSizePolicy::Policy::Minimum</enum>
           </property>
           <property name="sizeHint" stdset="0">
            <size>
@@ -502,10 +502,10 @@ border-width:0px;</string>
            <cursorShape>ClosedHandCursor</cursorShape>
           </property>
           <property name="focusPolicy">
-           <enum>Qt::NoFocus</enum>
+           <enum>Qt::FocusPolicy::NoFocus</enum>
           </property>
           <property name="layoutDirection">
-           <enum>Qt::LeftToRight</enum>
+           <enum>Qt::LayoutDirection::LeftToRight</enum>
           </property>
           <property name="styleSheet">
            <string notr="true">QSlider {
@@ -546,7 +546,7 @@ QSlider::handle:horizontal {
            <number>100</number>
           </property>
           <property name="orientation">
-           <enum>Qt::Horizontal</enum>
+           <enum>Qt::Orientation::Horizontal</enum>
           </property>
          </widget>
         </item>
@@ -560,13 +560,13 @@ QSlider::handle:horizontal {
           </property>
           <property name="minimumSize">
            <size>
-            <width>40</width>
+            <width>70</width>
             <height>40</height>
            </size>
           </property>
           <property name="maximumSize">
            <size>
-            <width>40</width>
+            <width>70</width>
             <height>40</height>
            </size>
           </property>
@@ -576,6 +576,9 @@ QSlider::handle:horizontal {
           <property name="mouseTracking">
            <bool>false</bool>
           </property>
+          <property name="layoutDirection">
+           <enum>Qt::LayoutDirection::LeftToRight</enum>
+          </property>
           <property name="styleSheet">
            <string notr="true">border-width:0px;background:transparent;</string>
           </property>
@@ -583,7 +586,10 @@ QSlider::handle:horizontal {
            <string>30%</string>
           </property>
           <property name="alignment">
-           <set>Qt::AlignCenter</set>
+           <set>Qt::AlignmentFlag::AlignCenter</set>
+          </property>
+          <property name="margin">
+           <number>2</number>
           </property>
          </widget>
         </item>
@@ -599,7 +605,7 @@ QSlider::handle:horizontal {
      <x>0</x>
      <y>0</y>
      <width>900</width>
-     <height>34</height>
+     <height>31</height>
     </rect>
    </property>
    <property name="styleSheet">
@@ -620,7 +626,7 @@ QSlider::handle:horizontal {
      <normaloff>:/icons/res/star_shining.png</normaloff>:/icons/res/star_shining.png</iconset>
    </property>
    <property name="text">
-    <string>Appearance</string>
+    <string>&amp;Appearance</string>
    </property>
   </action>
  </widget>
