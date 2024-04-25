@@ -58,6 +58,7 @@ void ManageTreeList::importToList2(QString data)
             continue;
         }
         QStandardItem* tmptop = new QStandardItem(keys[i]);
+        tmptop->setFlags(tmptop->flags() & ~Qt::ItemIsEditable); // 禁止编辑
         for (int j = 0; j < data_map[keys[i]].size(); j++) {
             // QStringList tmpDataItem = it.value().indexOf(i);
             QList tmpDataItem = data_map[keys[i]][j];
@@ -108,30 +109,6 @@ void ManageTreeList::switchExpand(const QModelIndex& index)
 //     // item_list->clear();
 // }
 
-// int ManageTreeList::getRow(QListWidgetItem* item)
-// {
-//     ; // return item_list->row(item);
-// }
-
-// void ManageTreeList::updateUIonItemChange(QListWidgetItem* cur_item, QListWidgetItem* new_item)
-// {
-//     cur_item->setSelected(false);
-//     new_item->setSelected(true);
-//     item_list->scrollToItem(new_item);
-// }
-
-// void ManageList::saveList(QSettings& settings, QString list_name)
-// {
-//     settings.beginWriteArray(list_name);
-//     for (int row = 0; row < item_list->count(); row++) {
-//         settings.setArrayIndex(row);
-//         QListWidgetItem* cur_item = item_list->item(row);
-//         settings.setValue("fileName", cur_item->text());
-//         settings.setValue("filePath", cur_item->data(Qt::UserRole));
-//     }
-//     settings.endArray();
-// }
-
 // void ManageList::loadList(QSettings& settings, QString list_name)
 // {
 //     int size = settings.beginReadArray(list_name);
@@ -147,11 +124,6 @@ void ManageTreeList::switchExpand(const QModelIndex& index)
 //         item_list->addItem(cur_item);
 //     }
 //     settings.endArray();
-// }
-
-// void ManageList::setModel_list(QListView* newMusic_list)
-// {
-//     item_list = newMusic_list;
 // }
 
 // QListWidget* ManageList::getItem_list() const

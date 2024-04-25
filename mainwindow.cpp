@@ -25,9 +25,6 @@ MainWindow::MainWindow(QWidget* parent)
 
     tree_play_list = std::unique_ptr<ManageTreeList>(new ManageTreeList(ui->treeListView));
 
-    // load settings
-    // you should read settings after ui is set up
-    // since you may want to initialize some components in ui
     readSettings();
     // player initialization
     // play_queue = std::unique_ptr<PlayQueue>(new PlayQueue(ui->musicList));
@@ -35,39 +32,19 @@ MainWindow::MainWindow(QWidget* parent)
     player.setVolume(50.0);
     // set key shortcuts
     setShortCutsForAll();
-    // set Menu & actions
     initActions();
     // initMenus();
     // ui setting
     ui->volumeSlider->setValue(50);
     ui->volumeDisplay->setText(QString::number(ui->volumeSlider->value()) + "%");
 
-    auto appIcon = QIcon(":icons/res/musical_notec.png");
+    auto appIcon = QIcon(":icons/res/music_note_r1.png");
     setTrayIcon(appIcon);
-    setWindowIcon(appIcon);
     default_music_image = QPixmap(":icons/res/defaultcover.png");
-    // this->setProperty("windowOpacity", 1.0);
 
-    // other ui componet settings
     ui->playButton->setEnabled(true);
     ui->stopButton->setEnabled(false);
     setDefaultPic();
-    // setAttribute(Qt::WA_TranslucentBackground, true);
-
-    // setStyleSheet("QMainWindow::titleBar { background-color: red; }");
-    //  阴影效果
-    // QGraphicsDropShadowEffect* shadowEffect = new QGraphicsDropShadowEffect;
-    //  // 阴影色，透明度
-    // shadowEffect->setColor(QColor(100, 100, 100));
-    // shadowEffect->setBlurRadius(40); // 阴影模糊半径
-    //  shadowEffect->setOffset(10); // 阴影的偏移值
-
-    // setGraphicsEffect(shadowEffect);
-    // setAttribute(Qt::WA_TranslucentBackground); // 设置背景透明
-    // setWindowOpacity(0.9);
-    // setWindowFlags(Qt::FramelessWindowHint); // 设置无边框
-    // set stylesheet
-    // signal&slot connecttion
     initConnect();
 }
 
@@ -109,8 +86,6 @@ void MainWindow::closeEvent(QCloseEvent* event)
 {
     event->accept();
 }
-
-// private slot
 
 void MainWindow::on_actionOpen_File_triggered()
 {
@@ -183,38 +158,6 @@ void MainWindow::on_volumeButton_clicked()
     }
 }
 
-// void MainWindow::on_musicList_itemDoubleClicked(QListWidgetItem* item)
-// {
-//     int new_item_row = music_list->getRow(item);
-//     play_queue->updatePlayingQueue(new_item_row);
-//     play_queue->setCurrent_item_row(new_item_row);
-
-//     auto cur_play_mode = play_queue->getPlayMode();
-//     play_queue->setPlayMode(PQ::PlayMode::Order);
-//     ui->forwardButton->click();
-//     play_queue->setPlayMode(cur_play_mode);
-// }
-
-// void MainWindow::on_forwardButton_clicked()
-// {
-//     auto* current_item = play_queue->current();
-//     auto* next_item = play_queue->next();
-//     if (!next_item || !current_item)
-//         return;
-//     playListItem(next_item);
-//     music_list->updateUIonItemChange(current_item, next_item);
-// }
-
-// void MainWindow::on_backwardButton_clicked()
-// {
-//     auto* current_item = play_queue->current();
-//     auto* pre_item = play_queue->previous();
-//     if (!pre_item || !current_item)
-//         return;
-//     playListItem(pre_item);
-//     music_list->updateUIonItemChange(current_item, pre_item);
-// }
-
 // void MainWindow::on_modeButton_clicked()
 // {
 //     // ui->modeButton->showMenu();
@@ -282,7 +225,7 @@ void MainWindow::showMusicInfo(QString key, QString value)
         QString sAudioTitle = jsonMetadata.value("icy-title").toString();
         setTex = sAudioTitle;
         setTex.replace("-", "\n").replace(" ", "");
-        tray_menu->setTitle(setTex);
+        //  tray_menu->setTitle(setTex);
 
         QString PicUrl1 = "http://gz.999887.xyz/getmusicpic.php?title=" + sAudioTitle + "&pictype=hires";
         HttpClient(PicUrl1)
@@ -306,7 +249,7 @@ void MainWindow::showMusicInfo(QString key, QString value)
             this->setDefaultPic();
         }
     }
-    tray_icon->setToolTip(setTex + "...");
+    // tray_icon->setToolTip(setTex + "...");
     ui->musicNameDisplay->setText(setTex);
 }
 
