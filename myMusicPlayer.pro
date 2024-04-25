@@ -10,14 +10,13 @@ CONFIG -= debug_and_release debug_and_release_target
 macx {
 
 LIBS += $(shell pkg-config --libs mpv taglib)
-INCLUDEPATH +=  $(shell pkg-config --cflags mpv taglib
+INCLUDEPATH +=  $(shell pkg-config --cflags mpv taglib)
 
 # LIBS += -L/opt/homebrew/Cellar/taglib/1.13.1/lib -ltag -lz
 # INCLUDEPATH += /opt/homebrew/Cellar/taglib/1.13.1/include
 
-
-# INCLUDEPATH += /opt/homebrew/Cellar/mpv/0.37.0_3/include
-# LIBS += -L/opt/homebrew/Cellar/mpv/0.37.0_3/lib -lmpv
+# INCLUDEPATH += /opt/homebrew/Cellar/mpv/0.38.0/include
+# LIBS += -L/opt/homebrew/Cellar/mpv/0.38.0/lib -lmpv
 
 }
 
